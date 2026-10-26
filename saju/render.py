@@ -174,7 +174,7 @@ def render_reading(data: dict) -> str:
   </div>
 </section>"""
 
-    return (_head(f"{data['name']} 님의 개발자 사주", r["headline"], 1, True)
+    return (_head(f"{data['name']} 님의 사주", r["headline"], 1, True)
             + '<main class="track">'
             + _hero("AI 개발자가 봐주는 사주", data["name"], "님의 사주팔자", r["headline"], seal, meta)
             + body + closing + "</main>\n</body>\n</html>\n")
@@ -208,7 +208,7 @@ def render_index(site: dict) -> str:
     body = "".join(_section(i + 1, s, {}) for i, s in enumerate(secs))
     return (_head(site["title"], site["description"], 0, False)
             + '<main class="track">'
-            + _hero("$ saju --help", "개발자 사주", "AI 개발자가 봐드립니다", site["description"], seal, button)
+            + _hero("AI 개발자가 봐주는 사주", "사주팔자", "만세력 계산부터 풀이까지", site["description"], seal, button)
             + body + "</main>\n</body>\n</html>\n")
 
 
