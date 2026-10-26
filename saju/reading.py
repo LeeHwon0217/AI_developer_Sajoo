@@ -1,120 +1,184 @@
-"""원국을 개발자 언어로 풀이한다 (규칙 기반 초안).
+"""원국 + 분석 → 17개 섹션 풀이 (규칙 기반 초안).
 
-여기서 만든 초안은 readings/*.json 에 저장되고, 사람이 직접 다듬거나
---llm 옵션으로 LLM 이 다시 써도 된다. 렌더러는 JSON 의 텍스트만 본다.
+모든 섹션은 같은 모양의 dict 이고 렌더러는 있는 필드만 그린다.
+  key, hanja, nav, title, sub, lead, paras[], cards[{title, body, badge}],
+  stats[{label, value, sub}], bars[{label, value(0-100), note}],
+  timeline[{when, title, body, now}], chips[], evidence[]
+초안은 readings/*.json 에 저장되고, 사람이 다듬거나 --llm 으로 다시 쓴다.
 """
 from __future__ import annotations
 
-from .chart import Chart, ELEMENTS
+from datetime import date
 
-# 일간 → 개발자 아키타입
+from .analysis import Analysis
+from .chart import ELEMENTS, Chart
+
+EL_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
+
 DAY_MASTER = {
-    "甲": ("백엔드 아키텍트", "큰 나무", "곧게 위로 자라는 큰 나무. 한 번 뿌리내린 구조는 잘 안 바꾸고, 그 위에 서비스 전체를 올리는 타입이에요. 스키마와 도메인 모델을 먼저 잡아야 마음이 편합니다."),
-    "乙": ("프론트엔드 · UX 엔지니어", "덩굴과 꽃", "벽을 타고 어디로든 뻗는 덩굴. 요구사항이 바뀌어도 유연하게 감아 올라가고, 사용자가 실제로 만지는 부분의 결을 기가 막히게 다듬습니다."),
-    "丙": ("테크 리드 · 데브렐", "태양", "숨길 수 없는 태양. 회의실 화이트보드 앞에 서면 빛나고, 팀 전체의 방향을 밝히는 데 재능이 있어요. 대신 디테일은 남이 챙겨줘야 할 때가 많습니다."),
-    "丁": ("디버거 · 딥다이버", "촛불", "어둠 속 한 점을 오래 비추는 촛불. 아무도 못 잡던 재현 안 되는 버그를 새벽 세 시에 잡아내는 사람. 집중력이 곧 무기입니다."),
-    "戊": ("인프라 · 플랫폼 엔지니어", "큰 산", "움직이지 않는 산. 장애가 나도 흔들리지 않고, 다른 사람이 위에 마음 놓고 배포할 수 있는 땅을 깔아줍니다. 99.99% 가용성이 성격 그 자체."),
-    "己": ("데이터 엔지니어", "기름진 밭", "씨앗을 받아 키워내는 밭. 흩어진 데이터를 정리하고 파이프라인을 일궈 남들이 수확하게 해주는 타입. 티는 덜 나도 없으면 모두가 굶습니다."),
-    "庚": ("보안 · 리팩터링 전문가", "원석과 칼", "단단한 쇠와 칼. 불필요한 코드는 과감히 자르고, 취약점은 끝까지 파고듭니다. 코드 리뷰 코멘트가 짧고 정확해서 무섭다는 말을 듣기도 해요."),
-    "辛": ("디테일 장인 (QA · 디자인 시스템)", "보석", "세공된 보석. 1px 어긋난 것, 일관성 없는 네이밍을 참지 못합니다. 완성도의 마지막 10%를 책임지는 사람이에요."),
-    "壬": ("분산 시스템 엔지니어", "큰 강과 바다", "모든 걸 받아들여 흘려보내는 큰 물. 스케일, 메시지 큐, 이벤트 스트림처럼 크고 흐르는 것에 강합니다. 한 군데 고여 있으면 답답해해요."),
-    "癸": ("ML 리서처", "비와 안개", "스며드는 비. 직관이 빠르고 데이터 속 패턴을 남보다 먼저 봅니다. 논문 읽다가 갑자기 아이디어가 내리는 타입."),
+    "甲": ("큰 나무", "백엔드 아키텍트", "곧고 책임감 있는 리더형. 한 번 정한 원칙은 잘 안 굽히고, 사람들이 기대는 기둥 같은 존재예요.", "고집이 세서 방향을 틀 타이밍을 놓치기 쉬워요."),
+    "乙": ("덩굴과 꽃", "프로덕트 · UX 엔지니어", "유연하고 사교적인 생존형. 어떤 환경에서도 길을 찾아 감아 오르고, 분위기를 읽는 감각이 뛰어나요.", "겉으론 맞춰주지만 속으론 계산이 많고 예민해요."),
+    "丙": ("태양", "테크 리드 · 데브렐", "밝고 솔직한 확산형. 있는 곳을 환하게 만들고 사람을 끌어당겨요.", "기분이 표정에 다 드러나고, 디테일 마무리가 약해요."),
+    "丁": ("촛불", "디버거 · 딥다이버", "따뜻하고 섬세한 집중형. 한 사람, 한 문제를 깊게 비추는 힘이 있어요.", "속으로 끓다가 한 번에 터지는 타입이에요."),
+    "戊": ("큰 산", "인프라 · 플랫폼 엔지니어", "묵직하고 믿음직한 포용형. 흔들리지 않고 다른 사람의 버팀목이 돼요.", "변화가 느리고 속마음을 잘 안 꺼내요."),
+    "己": ("기름진 밭", "데이터 엔지니어", "실속 있고 꼼꼼한 관리형. 사람과 자원을 키워내는 데 재능이 있어요.", "걱정이 많고 남 눈치를 많이 봐요."),
+    "庚": ("원석과 칼", "보안 · 리팩터링 전문가", "결단력 있고 의리 있는 돌파형. 옳다고 믿으면 밀어붙여요.", "말이 직설적이라 의도치 않게 상처를 줘요."),
+    "辛": ("보석", "디테일 장인", "예리하고 완벽주의적인 세공형. 품질과 자존심이 곧 정체성이에요.", "예민하고 상처를 오래 기억해요."),
+    "壬": ("큰 강과 바다", "분산 시스템 엔지니어", "스케일이 크고 자유로운 흐름형. 넓게 보고 빠르게 흡수해요.", "한 곳에 오래 머무르기 힘들어해요."),
+    "癸": ("비와 안개", "ML 리서처", "직관적이고 지적인 스며듦형. 조용히 패턴을 읽고 사람 마음을 적셔요.", "생각이 많아 결정을 미루곤 해요."),
 }
-
-# 오행 → 개발 역량 축
-ELEMENT_SKILL = {
-    "木": ("성장 · 학습", "새 기술을 빨리 흡수하고 기능을 키워나가는 힘"),
-    "火": ("표현 · 발표", "데모, 발표, UI처럼 밖으로 보여주는 힘"),
-    "土": ("안정 · 운영", "버티고 유지보수하고 신뢰를 쌓는 힘"),
-    "金": ("규칙 · 품질", "코드 리뷰, 테스트, 보안처럼 기준을 세우는 힘"),
-    "水": ("지식 · 리서치", "문서를 파고들고 깊이 생각하는 힘"),
+GROUP_WORK = {
+    "비겁": ("독립형", "내 방식, 내 오너십이 중요해요. 스스로 정한 기준으로 끝까지 밀어붙입니다."),
+    "식상": ("메이커형", "만들고 표현하고 싶은 게 늘 있어요. 아이디어를 결과물로 옮기는 속도가 빨라요."),
+    "재성": ("실리형", "결과와 쓸모, 돈이 되는지를 먼저 봐요. 지표로 우선순위를 잡아요."),
+    "관성": ("조직형", "체계와 책임을 중시해요. 큰 조직에서 신뢰를 얻고 리더가 되기 쉬워요."),
+    "인성": ("학습형", "배우고 정리하는 걸 좋아해요. 문서와 멘토링으로 팀을 키워요."),
 }
-
-MISSING_PATCH = {
-    "木": "새 언어나 프레임워크를 사이드 프로젝트로 하나 시작해 보세요. 작은 성장 루프가 부족한 木을 채워줍니다.",
-    "火": "만든 걸 밖에 보여주세요. 사내 발표, 기술 블로그, 데모 영상 하나면 충분합니다.",
-    "土": "운영 경험이 약점이 되기 쉬워요. 온콜을 한 번 맡거나 모니터링 대시보드를 직접 만들어 보세요.",
-    "金": "테스트 커버리지와 린터를 친구로 두세요. 규칙을 바깥 도구에 맡기면 부족한 金이 보완됩니다.",
-    "水": "한 주제를 깊게 파는 시간을 따로 잡으세요. 공식 문서 정독이나 논문 한 편이 水를 채웁니다.",
+CAREER = {
+    "비겁": [("1인 창업 · 인디 해커", 88), ("프리랜서 개발자", 84), ("오픈소스 메인테이너", 78)],
+    "식상": [("프론트엔드 · 크리에이티브 개발", 90), ("테크 유튜버 · 블로거", 85), ("해커톤형 프로토타이퍼", 82)],
+    "재성": [("프로덕트 엔지니어", 90), ("스타트업 초기 멤버", 86), ("그로스 · 데이터 분석", 80)],
+    "관성": [("대기업 · 공공 IT 리더", 88), ("엔지니어링 매니저", 85), ("보안 · 컴플라이언스", 80)],
+    "인성": [("ML 리서치 · 연구직", 88), ("테크 라이터 · 교육", 85), ("아키텍처 컨설팅", 80)],
 }
-
-EXCESS_WARN = {
-    "木": "일을 계속 벌리는 경향이 있어요. 끝나지 않은 브랜치가 쌓이지 않게 WIP 제한을 두세요.",
-    "火": "말이 코드보다 앞설 수 있어요. 발표 전에 데모가 실제로 돌아가는지 꼭 확인하세요.",
-    "土": "익숙한 스택에 고여 있기 쉽습니다. 레거시를 지키는 것과 갇히는 건 다릅니다.",
-    "金": "리뷰가 날카로워 팀원이 다칠 수 있어요. 코멘트에 이유와 대안을 같이 적어주세요.",
-    "水": "생각이 많아 착수가 늦을 수 있어요. 완벽한 설계보다 먼저 돌아가는 PoC를 만드세요.",
+EL_LUCK = {
+    "木": ("초록 · 청록", "동쪽", "3 · 8", "봄", "새 기술 하나를 꾸준히 배우는 루틴"),
+    "火": ("빨강 · 주황 · 보라", "남쪽", "2 · 7", "여름", "만든 걸 매주 하나씩 공개하는 습관"),
+    "土": ("노랑 · 베이지 · 갈색", "중앙", "5 · 10", "환절기", "운영과 기록을 꾸준히 쌓는 습관"),
+    "金": ("흰색 · 은색 · 금색", "서쪽", "4 · 9", "가을", "마감과 코드 리뷰를 일부러 거는 습관"),
+    "水": ("검정 · 남색", "북쪽", "1 · 6", "겨울", "깊게 읽고 정리하는 시간"),
 }
-
-GROUP_STYLE = {
-    "비겁": ("오픈소스 메인테이너형", "내 방식, 내 레포가 중요한 독립형. 스스로 정한 기준으로 끝까지 밀어붙입니다. 팀에선 오너십이 강점, 고집이 리스크."),
-    "식상": ("메이커형", "만들고 싶은 게 늘 있는 생산형. 아이디어를 코드로 옮기는 속도가 빠르고 해커톤에서 빛납니다. 문서화는 미루기 쉬워요."),
-    "재성": ("프로덕트 엔지니어형", "기술보다 결과와 사용자를 먼저 보는 실용형. 지표와 비즈니스 임팩트로 우선순위를 잡습니다. 스타트업과 궁합이 좋아요."),
-    "관성": ("시니어 · 매니지먼트형", "프로세스와 책임을 중시하는 조직형. 큰 조직에서 신뢰를 얻고 리더 역할을 맡기 쉽습니다. 스트레스를 혼자 지는 경향은 주의."),
-    "인성": ("리서처 · 테크 라이터형", "배우고 정리하는 걸 즐기는 학습형. 좋은 문서와 멘토링으로 팀을 키웁니다. 인풋에 비해 아웃풋이 늦을 수 있어요."),
-}
-
-GOD_THEME = {
-    "비견": "동료와 나란히 달리는 시기. 페어 프로그래밍, 공동 창업, 사이드 프로젝트 팀업에 좋아요.",
-    "겁재": "경쟁이 붙는 시기. 같은 자리를 노리는 사람이 생기니 성과를 기록으로 남겨두세요.",
-    "식신": "꾸준히 만들어 내는 시기. 기능 출시가 즐겁고 결과물이 쌓입니다.",
-    "상관": "기존 방식을 깨는 시기. 리팩터링, 이직, 새 스택 전환 욕구가 커져요. 말조심만 하면 혁신이 됩니다.",
-    "편재": "큰 기회가 들고 나는 시기. 프리랜스, 외주, 새로운 비즈니스 실험에 운이 붙어요.",
-    "정재": "안정적인 보상의 시기. 연봉 협상, 꾸준한 수입, 자산 정리에 좋습니다.",
-    "편관": "압박과 마감의 시기. 장애 대응과 빡센 프로젝트가 몰려오지만 버티면 레벨업합니다.",
-    "정관": "인정과 승진의 시기. 직급, 타이틀, 조직 내 역할이 커집니다.",
-    "편인": "독특한 공부의 시기. 비주류 기술, 연구, 자격증처럼 남들이 안 하는 걸 파면 좋아요.",
-    "정인": "배움과 지원의 시기. 좋은 멘토, 교육 기회, 문서가 나를 돕습니다.",
+EL_BODY = {
+    "木": "간 · 눈 · 근육 긴장(목·어깨)", "火": "심장 · 혈압 · 수면 리듬", "土": "위장 · 소화",
+    "金": "폐 · 호흡기 · 피부", "水": "신장 · 허리 · 하체 순환",
 }
 
 
-def _top(d: dict[str, int]) -> list[str]:
-    m = max(d.values())
-    return [k for k, v in d.items() if v == m and v > 0]
+def _sec(key, hanja, nav, title, sub="", **kw) -> dict:
+    return {"key": key, "hanja": hanja, "nav": nav, "title": title, "sub": sub, **kw}
 
 
-def draft_reading(chart: Chart, name: str) -> dict:
-    """원국 → 화면에 나갈 텍스트 섹션들."""
-    role, image, desc = DAY_MASTER[chart.day_master]
+def _first(years, tag, min_age=0):
+    return [y for y in years if tag in y.tags and y.age >= min_age]
+
+
+def draft_reading(chart: Chart, a: Analysis, name: str, today: date | None = None) -> dict:
+    today = today or date.today()
+    image, role, good, bad = DAY_MASTER[chart.day_master]
     yy = "양" if chart.day_master_yang else "음"
-
-    els = chart.elements
-    total = sum(els.values())
+    els, g = chart.elements, chart.groups
+    top_group = max(g, key=g.get)
     missing = [e for e in ELEMENTS if els[e] == 0]
     excess = [e for e in ELEMENTS if els[e] >= 3]
+    ys = a.yongsin_element
+    p = {x.label: x for x in chart.pillars}
+    dm = f"일간 {chart.day_master}({yy}{chart.day_master_element})"
+    strength = f"{'신강' if a.strong else '신약'} {a.support}/{a.total}"
+    male = chart.gender == "M"
 
-    strengths = [f"{e} {ELEMENT_SKILL[e][0]}: {ELEMENT_SKILL[e][1]}" for e in _top(els)]
-    warnings = [f"{e} 과다 — {EXCESS_WARN[e]}" for e in excess]
-    patches = [f"{e} 부족 — {MISSING_PATCH[e]}" for e in missing]
+    sections = []
 
-    main_group = _top(chart.groups)[0]
-    style_name, style_desc = GROUP_STYLE[main_group]
+    sections.append(_sec("chart", "命", "명식", "명식 한눈에", "어려운 건 이것만 알면 돼요",
+        lead=f"{name} 님은 {image}의 기운을 타고난 사람.",
+        paras=[
+            f"사주의 주인공 글자(일간)는 {chart.day_master}, {image}예요.",
+            f"내 편 기운이 {a.support}/{a.total}로 {'강해서 밀어붙이는 힘이 있고' if a.strong else '약해서 주변 도움을 잘 받아야 하고'}, "
+            f"가장 필요한 기운(용신)은 {ys}({EL_KO[ys]})예요.",
+        ],
+        evidence=[dm, strength, f"용신 {ys}"]))
 
-    roadmap = [{
-        "version": f"v{p.start_age}",
-        "pillar": f"{p.hanja} ({p.hangul})",
-        "note": GOD_THEME[p.stem_god],
-    } for p in chart.luck[:8]]
+    sections.append(_sec("persona", "性", "성격", "어떤 사람인가", f"{role}",
+        lead=good, paras=[bad],
+        evidence=[dm, f"가장 많은 십성: {top_group}"]))
 
-    releases = [{
-        "year": y["year"],
-        "pillar": f"{y['hanja']} ({y['hangul']})",
-        "note": f"{GOD_THEME[y['stem_god']]} 하반기엔 {y['branch_god']}의 기운: {GOD_THEME[y['branch_god']]}",
-    } for y in chart.yearly]
+    sections.append(_sec("mask", "面", "겉과 속", "남들이 보는 나 vs 진짜 나", "월주는 사회의 얼굴, 일지는 속마음",
+        cards=[
+            {"title": "남들이 보는 나", "badge": p["월주"].hanja, "body": f"사회에선 {p['월주'].stem_god}의 얼굴로 보여요."},
+            {"title": "진짜 나", "badge": p["일주"].hanja, "body": f"속마음 자리에는 {p['일주'].branch_god}가 앉아 있어요."},
+        ],
+        evidence=[f"월주 {p['월주'].hanja}", f"일지 {p['일주'].hanja[1]}"]))
+
+    sections.append(_sec("talent", "才", "재능", "타고난 재능", "",
+        cards=[{"title": f"{e} 많음", "body": f"{EL_KO[e]} 기운이 넉넉해요."} for e in excess] or [{"title": "균형", "body": "오행이 고르게 퍼져 있어요."}],
+        evidence=[f"오행 {' '.join(f'{k}{v}' for k, v in els.items())}"]))
+
+    sections.append(_sec("bug", "病", "약점", "조심할 버그", "",
+        cards=[{"title": f"{e} 없음", "body": f"{EL_KO[e]} 기운이 빠져 있어요."} for e in missing] or [{"title": "치명적 버그 없음", "body": "크게 빠진 기운은 없어요."}],
+        evidence=[f"없는 오행: {', '.join(missing) or '없음'}"]))
+
+    title, body = GROUP_WORK[top_group]
+    sections.append(_sec("work", "工", "일하는 법", "일하는 방식", title, lead=body,
+        evidence=[f"{k} {v}" for k, v in g.items()]))
+
+    sections.append(_sec("career", "業", "직업", "잘 맞는 직업", "적합도",
+        bars=[{"label": l, "value": v, "note": ""} for l, v in CAREER[top_group]],
+        evidence=[f"주력 십성 {top_group}", f"용신 {a.yongsin_group}"]))
+
+    peak = max(a.daeun_years, key=lambda d: (d["stem_god"] in ("정재", "편재")) * 2 + (d["branch_god"] in ("정재", "편재")) * 2
+               + (d["stem_god"] in ("식신", "상관")) + (d["branch_god"] in ("식신", "상관")))
+    score = min(g["재성"], 3) * 2 + min(g["식상"] + a.hidden_groups["식상"], 2) + (2 if a.strong and g["재성"] else 0)
+    tier = ("소박하지만 안정", "5억 안팎") if score <= 2 else ("중산층 상단", "10~20억") if score <= 4 else \
+           ("부자 그릇", "20~40억") if score <= 6 else ("큰 부자 그릇", "50억 이상")
+    sections.append(_sec("money", "財", "재물", "돈은 얼마나 벌까", "재물 그릇",
+        stats=[
+            {"label": "재물 그릇", "value": tier[0], "sub": f"순자산 {tier[1]} 수준"},
+            {"label": "재물 피크", "value": f"{peak['from']}–{peak['to']}", "sub": f"{peak['start_age']}세 대운 {peak['hanja']}"},
+        ],
+        evidence=[f"재성 {g['재성']}", f"식상(지장간 포함) {g['식상'] + a.hidden_groups['식상']}", strength]))
+
+    sections.append(_sec("love", "愛", "연애", "연애 스타일", "",
+        lead=f"배우자 자리(일지)에 {a.spouse_palace_god}가 있어요.",
+        evidence=[f"일지 {a.spouse_palace}({a.spouse_palace_god})", f"배우자성 {a.spouse_star} {a.spouse_star_count}"]))
+
+    wed = _first(a.years, "인연", 27)[:2]
+    sections.append(_sec("marriage", "緣", "결혼", "결혼과 배우자", "",
+        timeline=[{"when": str(y.year), "title": f"{y.hanja} · {y.age}세", "body": f"{y.stem_god}/{y.branch_god} {' '.join(y.with_day_branch)}"} for y in wed],
+        evidence=[f"배우자성 {a.spouse_star}", f"일지 {a.spouse_palace}"]))
+
+    c = a.child_star_count
+    kids = "1명 (늦게 오는 편)" if c == 0 else "1~2명" if c == 1 else "2명" if c == 2 else "2~3명"
+    first = _first(a.years, "자녀", 28)[:1]
+    sections.append(_sec("children", "子", "자녀", "자녀운", "",
+        stats=[{"label": "자녀 수", "value": kids, "sub": f"자녀성 {a.child_star} {c}개"},
+               {"label": "첫째 시기", "value": str(first[0].year) if first else "–", "sub": first[0].hanja if first else ""}],
+        evidence=[f"자녀성 {a.child_star} {c}", f"시주 {'·'.join(a.child_palace_gods) or '모름'}"]))
+
+    sections.append(_sec("people", "友", "인연", "인간관계와 궁합", "",
+        lead=f"{ys}({EL_KO[ys]}) 기운이 강한 사람이 귀인이에요.",
+        evidence=[f"용신 {ys}"] + a.chart_relations[:2]))
+
+    body_risk = [f"{e} 과다: {EL_BODY[e]}" for e in excess] + [f"{e} 부족: {EL_BODY[e]}" for e in missing]
+    sections.append(_sec("health", "身", "건강", "컨디션 관리", "오행 전통 해석 · 의학적 진단 아님",
+        cards=[{"title": t.split(':')[0], "body": t.split(': ')[1]} for t in body_risk] or [{"title": "균형", "body": "크게 치우친 곳이 없어요."}],
+        evidence=[f"오행 {' '.join(f'{k}{v}' for k, v in els.items())}"]))
+
+    sections.append(_sec("roadmap", "運", "대운", "인생 로드맵", "10년 단위 대운",
+        timeline=[{"when": f"{d['from']}–{d['to']}", "title": f"{d['hanja']} · {d['start_age']}세",
+                   "body": f"{d['stem_god']} / {d['branch_god']}",
+                   "now": d["from"] <= today.year <= d["to"]} for d in a.daeun_years[:8]],
+        evidence=[f"{'순행' if chart.luck_forward else '역행'} {chart.luck_start_age}세 시작"]))
+
+    sections.append(_sec("year", "年", "올해", "올해와 내년", "",
+        cards=[{"title": f"{y.year} {y.hanja}", "badge": " · ".join(y.tags) or "평", "body": f"{y.stem_god} / {y.branch_god}"} for y in a.years[:2]],
+        evidence=[f"{y.year} {y.hanja}: {y.stem_god}/{y.branch_god}" for y in a.years[:2]]))
+
+    color, direction, num, season, habit = EL_LUCK[ys]
+    sections.append(_sec("luck", "福", "개운법", "운을 여는 법", f"용신 {ys}({EL_KO[ys]})",
+        stats=[{"label": "행운의 색", "value": color}, {"label": "방향", "value": direction},
+               {"label": "숫자", "value": num}, {"label": "계절", "value": season}],
+        lead=habit, evidence=[f"용신 {ys}"]))
+
+    sections.append(_sec("proof", "證", "근거", "이 풀이가 다른 이유", "그냥 LLM 사주와 무엇이 다른가",
+        cards=[
+            {"title": "만세력을 코드로 직접 계산", "body": f"태양 황경으로 절기를 계산하고, 출생 시각을 지방시로 보정했어요 ({chart.birth} → {chart.corrected_local}). 일반 챗봇은 날짜를 간지로 바꾸는 단계에서 자주 틀려요."},
+            {"title": "지장간 · 합충 · 신살까지", "body": "겉 글자 8개만이 아니라 숨은 글자, 글자끼리의 관계, 신살, 15년치 연운을 모두 계산한 데이터에서 출발했어요."},
+            {"title": "모든 문장에 근거", "body": "각 장 아래의 근거 칩이 그 해석이 어느 글자에서 나왔는지 보여줘요."},
+            {"title": "사람이 검수", "body": "계산은 코드가, 해석은 AI 개발자가 직접 읽고 다듬었어요."},
+        ],
+        evidence=a.chart_relations + [f"{k}: {', '.join(v)}" for k, v in a.shinsal.items() if v]))
 
     return {
         "headline": f"{name} 님은 {image}의 기운을 가진 {role}",
-        "summary": (
-            f"일간 {chart.day_master}({yy}{chart.day_master_element}). {desc}"
-        ),
-        "work_style": {"title": style_name, "body": style_desc},
-        "strengths": strengths,
-        "warnings": warnings,
-        "patches": patches,
-        "roadmap": roadmap,
-        "releases": releases,
-        "closing": (
-            f"원국 리소스 {total}개 중 가장 많은 건 {', '.join(_top(els))}. "
-            "사주는 스펙 문서일 뿐, 실제 동작은 당신이 커밋하는 코드가 결정합니다."
-        ),
+        "sections": sections,
+        "closing": "사주는 스펙 문서일 뿐, 실제 동작은 당신이 커밋하는 코드가 결정합니다.",
     }

@@ -1,9 +1,11 @@
-"""readings/*.json → docs/ 정적 HTML (GitHub Pages)."""
+"""readings/*.json → docs/ 정적 HTML (GitHub Pages).
+
+페이지는 한 화면짜리 슬라이드들의 묶음이다. app.js 가 휠·스와이프·키 한 번에 한 장씩 넘긴다.
+"""
 from __future__ import annotations
 
 import json
 import shutil
-from datetime import date
 from html import escape
 from pathlib import Path
 
@@ -16,15 +18,10 @@ ASSETS = Path(__file__).resolve().parent / "assets"
 
 EL_CLASS = {"木": "wood", "火": "fire", "土": "earth", "金": "metal", "水": "water"}
 EL_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
-EL_SKILL = {"木": "성장 · 학습", "火": "표현 · 출시", "土": "안정 · 운영", "金": "규칙 · 품질", "水": "지식 · 리서치"}
-GROUP_HANJA = {"비겁": "比劫", "식상": "食傷", "재성": "財星", "관성": "官星", "인성": "印星"}
-NUMERALS = "壹貳參肆伍陸"
+ANIMS = ["rise", "stamp", "slide", "flip"]
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Gowun+Batang:wght@400;700"
          "&family=Noto+Serif+KR:wght@500;900&family=JetBrains+Mono:wght@400;600&display=swap")
-
-BRUSH_LINE = ('<svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true">'
-              '<path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg>')
 
 
 def _head(title: str, desc: str, depth: int, noindex: bool) -> str:
@@ -47,18 +44,13 @@ def _head(title: str, desc: str, depth: int, noindex: bool) -> str:
 <link rel="stylesheet" href="{up}assets/style.css">
 <script src="{up}assets/app.js" defer></script>
 </head>
-<body>
+<body class="deck">
 <div class="petals" aria-hidden="true"></div>
 """
 
 
-def _title(i: int, name: str, sub: str) -> str:
-    return (f'<h2 class="sec-title reveal"><span class="hj">{NUMERALS[i]}</span>'
-            f'<span class="t">{escape(name)}</span><small>{escape(sub)}</small>{BRUSH_LINE}</h2>')
-
-
 def _hero(kicker: str, title: str, title_sub: str, headline: str, seal: str, extra: str = "") -> str:
-    return f"""<header class="hero">
+    return f"""<section class="slide hero" data-nav="표지">
   <div class="layers">{intro_layers()}</div>
   <div class="hero-text">
     <p class="kicker">{escape(kicker)}</p>
@@ -67,146 +59,125 @@ def _hero(kicker: str, title: str, title_sub: str, headline: str, seal: str, ext
     {extra}
   </div>
   <div class="seal" aria-hidden="true">{seal}</div>
-  <a class="scroll-hint" href="#start">스크롤을 내려 운명을 열어보세요<span>↓</span></a>
-</header>"""
+  <button class="scroll-hint" data-go="next">넘겨서 운명을 열어보세요<span>↓</span></button>
+</section>"""
 
 
-def _pillar(p: dict, i: int) -> str:
-    s_el, b_el = p["stem_element"], p["branch_element"]
-    top = p["stem_god"] or "나 (일간)"
-    me = " me" if not p["stem_god"] else ""
-    return f"""<div class="pillar stamp{me}" style="--i:{i}">
+class _Seq:
+    """슬라이드 안 요소마다 등장 순서(--d)를 매긴다."""
+
+    def __init__(self):
+        self.n = 0
+
+    def __call__(self) -> str:
+        self.n += 1
+        return f'style="--d:{self.n}"'
+
+
+def _opt(tag: str, cls: str, text: str | None) -> str:
+    if not text:
+        return ""
+    c = f' class="{cls}"' if cls else ""
+    return f"<{tag}{c}>{escape(text)}</{tag}>"
+
+
+def _pillars(chart: dict, d: _Seq) -> str:
+    order = {"시주": 0, "일주": 1, "월주": 2, "년주": 3}
+    cells = []
+    for p in sorted(chart["pillars"], key=lambda p: order[p["label"]]):
+        me = " me" if not p["stem_god"] else ""
+        cells.append(f"""<div class="pillar a{me}" {d()}>
   <div class="plabel">{escape(p['label'])}</div>
-  <div class="pgod">{escape(top)}</div>
-  <div class="char {EL_CLASS[s_el]}">{p['hanja'][0]}</div>
-  <div class="ko">{p['hangul'][0]} · {EL_KO[s_el]}</div>
-  <div class="char {EL_CLASS[b_el]}">{p['hanja'][1]}</div>
-  <div class="ko">{p['hangul'][1]} · {EL_KO[b_el]}</div>
+  <div class="pgod">{escape(p['stem_god'] or '나')}</div>
+  <div class="char {EL_CLASS[p['stem_element']]}">{p['hanja'][0]}</div>
+  <div class="char {EL_CLASS[p['branch_element']]}">{p['hanja'][1]}</div>
   <div class="pgod">{escape(p['branch_god'])}</div>
-</div>"""
-
-
-def _bars(elements: dict[str, int]) -> str:
-    total = sum(elements.values()) or 1
-    rows = []
-    for i, (el, n) in enumerate(elements.items()):
-        status = "부족" if n == 0 else ("과다" if n >= 3 else "적정")
-        cls = {"부족": "missing", "과다": "high", "적정": "ok"}[status]
-        rows.append(f"""<div class="el-row reveal" style="--i:{i}; --v:{n / total * 100:.0f}%">
-  <span class="el-hj {EL_CLASS[el]}">{el}</span>
-  <span class="el-name">{EL_KO[el]} <small>{EL_SKILL[el]}</small></span>
-  <span class="el-track"><span class="el-fill {EL_CLASS[el]}-bg"></span></span>
-  <span class="el-val">{n}<em class="st-{cls}">{status}</em></span>
 </div>""")
-    return "\n".join(rows)
+    els = "".join(f'<span class="el-chip {EL_CLASS[e]}-bg">{e} {n}</span>' for e, n in chart["elements"].items())
+    return f'<div class="pillars">{"".join(cells)}</div><div class="el-chips a" {d()}>{els}</div>'
 
 
-def _lint(items: list[str], seal: str, cls: str) -> str:
-    return "\n".join(
-        f'<li class="lint-item {cls} reveal"><span class="mini-seal">{seal}</span><p>{escape(t)}</p></li>'
-        for t in items
-    )
+def _section(i: int, s: dict, chart: dict) -> str:
+    d = _Seq()
+    anim = ANIMS[i % len(ANIMS)]
+    parts = [f"""<header class="s-head a" {d()}>
+  <span class="hj">{escape(s['hanja'])}</span>
+  <div><p class="s-num">{i:02d} · {escape(s['nav'])}</p><h2>{escape(s['title'])}</h2>
+  {f'<p class="s-sub">{escape(s["sub"])}</p>' if s.get('sub') else ''}</div>
+</header>"""]
+
+    if s["key"] == "chart":
+        parts.append(_pillars(chart, d))
+    if s.get("lead"):
+        parts.append(f'<p class="lead a" {d()}>{escape(s["lead"])}</p>')
+    if s.get("stats"):
+        parts.append('<div class="stats">' + "".join(
+            f'<div class="stat a" {d()}><span class="st-label">{escape(x["label"])}</span>'
+            f'<span class="st-value">{escape(x["value"])}</span>{_opt("span", "st-sub", x.get("sub"))}</div>'
+            for x in s["stats"]) + "</div>")
+    if s.get("bars"):
+        parts.append('<div class="fit">' + "".join(
+            f'<div class="fit-row a" {d()}><span class="fit-label">{escape(x["label"])}{_opt("small", "", x.get("note"))}</span>'
+            f'<span class="fit-track"><span class="fit-fill" style="--v:{int(x["value"])}%"></span></span>'
+            f'<span class="fit-val">{int(x["value"])}%</span></div>'
+            for x in s["bars"]) + "</div>")
+    for t in s.get("paras") or []:
+        parts.append(f'<p class="para a" {d()}>{escape(t)}</p>')
+    if s.get("cards"):
+        parts.append('<div class="cards">' + "".join(
+            f'<div class="card a" {d()}>{_opt("span", "badge", x.get("badge"))}'
+            f'<h3>{escape(x["title"])}</h3><p>{escape(x["body"])}</p></div>'
+            for x in s["cards"]) + "</div>")
+    if s.get("timeline"):
+        n = len(s["timeline"])
+        many = f' many" style="--rows:{(n + 1) // 2}' if n > 5 else ""
+        parts.append(f'<ol class="timeline{many}">' + "".join(
+            f'<li class="tl a{" now" if x.get("now") else ""}" {d()}><span class="tl-when">{escape(x["when"])}</span>'
+            f'<div><h3>{escape(x["title"])}{_opt("span", "now-badge", "지금" if x.get("now") else None)}</h3>'
+            f'<p>{escape(x["body"])}</p></div></li>'
+            for x in s["timeline"]) + "</ol>")
+    if s.get("chips"):
+        parts.append(f'<div class="chips a" {d()}>' + "".join(f"<span>{escape(c)}</span>" for c in s["chips"]) + "</div>")
+    if s.get("evidence"):
+        parts.append(f'<div class="evidence a" {d()}><span class="ev-label">근거</span>'
+                     + "".join(f"<span>{escape(e)}</span>" for e in s["evidence"]) + "</div>")
+
+    return f"""<section class="slide" data-anim="{anim}" data-nav="{escape(s['nav'])}">
+  <span class="wm" aria-hidden="true">{escape(s['hanja'])}</span>
+  <div class="slide-inner">{''.join(parts)}</div>
+</section>"""
 
 
 def render_reading(data: dict) -> str:
     chart, r = data["chart"], data["reading"]
-    order = {"시주": 0, "일주": 1, "월주": 2, "년주": 3}
-    pillars = sorted(chart["pillars"], key=lambda p: order[p["label"]])
     gender = "남" if chart["gender"] == "M" else "여"
-    today = date.today()
-    age = today.year - int(chart["birth"][:4]) + 1  # 대운수는 세는나이 기준
-
     notes = []
     if not chart["hour_known"]:
-        notes.append("태어난 시간을 몰라 시주 없이 세 기둥으로 봤어요.")
+        notes.append("태어난 시간을 몰라 시주 없이 봤어요")
     if chart["near_term_boundary"]:
-        notes.append("절기가 바뀌는 시각과 아주 가까워 월주가 달라질 수 있어요.")
-    note_html = "".join(f'<p class="notice reveal">※ {escape(n)}</p>' for n in notes)
-
-    main_group = max(chart["groups"], key=chart["groups"].get)
-
-    road = []
-    for i, x in enumerate(r["roadmap"]):
-        start = int(x["version"].lstrip("v"))
-        now = start <= age < start + 10
-        badge = '<span class="now">지금 여기</span>' if now else ""
-        road.append(f"""<li class="road-item reveal{' current' if now else ''}" style="--i:{i}">
-  <div class="road-age">{start}<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">{escape(x['pillar'])}</span><span class="tag">{escape(x['version'])}</span>{badge}</h3>
-    <p>{escape(x['note'])}</p>
-  </div>
-</li>""")
-
-    releases = "\n".join(f"""<article class="release flip reveal{' this-year' if x['year'] == today.year else ''}" style="--i:{i}">
-  <span class="wm">{escape(x['pillar'][:2])}</span>
-  <h3><span class="year">{x['year']}</span> {escape(x['pillar'])}</h3>
-  <p>{escape(x['note'])}</p>
-</article>""" for i, x in enumerate(r["releases"]))
-
-    meta = f'<p class="meta">{escape(chart["birth"])} · {gender} · 보정 지방시 {escape(chart["corrected_local"])}</p>'
+        notes.append("절입 시각과 가까워 월주가 달라질 수 있어요")
+    meta = (f'<p class="meta">{escape(chart["birth"])} · {gender}'
+            + "".join(f" · ※ {escape(n)}" for n in notes) + "</p>")
     seal = f'<span class="seal-char">{chart["day_master"]}</span><span class="seal-sub">日干</span>'
 
-    return _head(f"{data['name']} 님의 개발자 사주", r["headline"], 1, True) + _hero(
-        "AI 개발자가 봐주는 사주", data["name"], "님의 사주팔자", r["headline"], seal, meta
-    ) + f"""
-<main class="paper" id="start">
-  {note_html}
-  <section>
-    {_title(0, "시스템 스펙", "사주 원국 여덟 글자")}
-    <div class="pillars">{''.join(_pillar(p, i) for i, p in enumerate(pillars))}</div>
-    <p class="lead reveal">{escape(r['summary'])}</p>
-  </section>
+    secs = r["sections"]
+    body = "".join(_section(i + 1, s, chart) for i, s in enumerate(secs))
+    closing = f"""<section class="slide closing" data-anim="rise" data-nav="끝">
+  <span class="wm" aria-hidden="true">終</span>
+  <div class="slide-inner">
+    <p class="closing-text a" style="--d:1">{escape(r['closing'])}</p>
+    <p class="a" style="--d:2"><button class="btn" data-go="0">처음부터 다시 보기</button></p>
+    <footer class="a" style="--d:3">
+      <p>AI 개발자가 봐주는 사주 · 재미로 보는 해석이며 중요한 결정의 근거가 아닙니다.</p>
+      <p><a href="../">← 처음으로</a></p>
+    </footer>
+  </div>
+</section>"""
 
-  <section>
-    {_title(1, "리소스 모니터", "오행 분포")}
-    <div class="panel elements">{_bars(chart['elements'])}</div>
-  </section>
-
-  <section>
-    {_title(2, "워크 스타일", "십성")}
-    <div class="panel style-card reveal">
-      <span class="wm big">{GROUP_HANJA[main_group]}</span>
-      <h3>{escape(r['work_style']['title'])}</h3>
-      <p>{escape(r['work_style']['body'])}</p>
-    </div>
-  </section>
-
-  <section>
-    {_title(3, "린트 결과", "길 · 경 · 보")}
-    <ul class="lint">
-      {_lint(r['strengths'], '吉', 'good')}
-      {_lint(r['warnings'], '警', 'warn')}
-      {_lint(r['patches'], '補', 'patch')}
-    </ul>
-  </section>
-
-  <section>
-    {_title(4, "릴리즈 로드맵", f"대운 · {'순행' if chart['luck_forward'] else '역행'} · {chart['luck_start_age']}세 시작")}
-    <div class="scroll-roll reveal">
-      <div class="rod"></div>
-      <ol class="road">{''.join(road)}</ol>
-      <div class="rod"></div>
-    </div>
-  </section>
-
-  <section>
-    {_title(5, "릴리즈 노트", "세운")}
-    <div class="releases">{releases}</div>
-  </section>
-
-  <section class="closing reveal">
-    <p>{escape(r['closing'])}</p>
-  </section>
-
-  <footer>
-    <p>AI 개발자가 봐주는 사주 · 재미로 보는 해석이며 중요한 결정의 근거가 아닙니다.</p>
-    <p><a href="../">← 처음으로</a></p>
-  </footer>
-</main>
-</body>
-</html>
-"""
+    return (_head(f"{data['name']} 님의 개발자 사주", r["headline"], 1, True)
+            + '<main class="track">'
+            + _hero("AI 개발자가 봐주는 사주", data["name"], "님의 사주팔자", r["headline"], seal, meta)
+            + body + closing + "</main>\n</body>\n</html>\n")
 
 
 def render_index(site: dict) -> str:
@@ -214,35 +185,31 @@ def render_index(site: dict) -> str:
     button = (f'<a class="btn" href="{escape(apply)}" target="_blank" rel="noopener">사주 신청하기</a>'
               if apply else '<p class="meta">신청 링크 준비 중이에요.</p>')
     seal = '<span class="seal-char">命</span><span class="seal-sub">四柱</span>'
-    cards = [
-        ("壹", "시스템 스펙", "사주 원국 여덟 글자를 만세력으로 정확히 계산해요."),
-        ("貳", "리소스 모니터", "오행 분포를 내 개발 역량 그래프로 바꿔 보여드려요."),
-        ("參", "워크 스타일", "십성으로 메이커형인지, 리서처형인지 알려드려요."),
-        ("肆", "릴리즈 로드맵", "10년 단위 대운을 버전 태그처럼 정리해요."),
+    secs = [
+        {"key": "what", "hanja": "觀", "nav": "소개", "title": "이렇게 봐드려요", "sub": "17장의 풀이",
+         "cards": [
+             {"title": "성격 · 겉과 속", "body": "어떤 사람인지, 남들이 보는 나와 진짜 나"},
+             {"title": "직업 · 재물", "body": "잘 맞는 직군과 적합도, 재물 그릇과 피크 시기"},
+             {"title": "연애 · 결혼 · 자녀", "body": "연애 스타일, 결혼 시기, 자녀 수와 시기"},
+             {"title": "대운 · 올해 · 개운법", "body": "10년 단위 로드맵과 운을 여는 습관"},
+         ]},
+        {"key": "why", "hanja": "證", "nav": "차별점", "title": "챗봇 사주와 다른 점", "sub": "계산은 코드로, 해석은 사람이",
+         "cards": [
+             {"title": "만세력 직접 계산", "body": "태양 황경으로 절기를, 출생지 경도로 시간을 보정해요."},
+             {"title": "모든 해석에 근거", "body": "어느 글자에서 나온 말인지 장마다 보여드려요."},
+         ]},
+        {"key": "how", "hanja": "請", "nav": "신청", "title": "신청 방법", "sub": "세 단계",
+         "timeline": [
+             {"when": "1", "title": "정보 보내기", "body": "양력 생년월일, 태어난 시간(모르면 비워두세요), 성별, 닉네임"},
+             {"when": "2", "title": "분석", "body": "개발자가 직접 계산하고 풀이를 다듬어요."},
+             {"when": "3", "title": "결과 받기", "body": "나만 아는 링크로 결과 페이지를 받아요."},
+         ]},
     ]
-    grid = "".join(f'<div class="panel feature reveal" style="--i:{i}"><span class="mini-seal">{h}</span>'
-                   f'<h3>{t}</h3><p>{d}</p></div>' for i, (h, t, d) in enumerate(cards))
-    return _head(site["title"], site["description"], 0, False) + _hero(
-        "$ saju --help", "개발자 사주", "AI 개발자가 봐드립니다", site["description"], seal, button
-    ) + f"""
-<main class="paper" id="start">
-  <section>
-    {_title(0, "이렇게 봐드려요", "개발자 언어로 푸는 사주")}
-    <div class="features">{grid}</div>
-  </section>
-  <section>
-    {_title(1, "신청 방법", "세 단계")}
-    <ol class="steps">
-      <li class="reveal">양력 생년월일, 태어난 시간(모르면 비워두세요), 성별, 닉네임을 보내주세요.</li>
-      <li class="reveal">개발자가 직접 분석하고 다듬어요.</li>
-      <li class="reveal">나만 아는 링크로 결과 페이지를 받아요.</li>
-    </ol>
-  </section>
-  <footer><p>{escape(site.get('footer', ''))}</p></footer>
-</main>
-</body>
-</html>
-"""
+    body = "".join(_section(i + 1, s, {}) for i, s in enumerate(secs))
+    return (_head(site["title"], site["description"], 0, False)
+            + '<main class="track">'
+            + _hero("$ saju --help", "개발자 사주", "AI 개발자가 봐드립니다", site["description"], seal, button)
+            + body + "</main>\n</body>\n</html>\n")
 
 
 def build() -> list[Path]:

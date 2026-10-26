@@ -11,31 +11,29 @@ SYSTEM = """당신은 사주명리에 밝은 시니어 AI 개발자입니다.
 주어진 사주 원국(계산 완료된 데이터)과 규칙 기반 초안을 바탕으로, 개발자 언어로 풀이를 다시 씁니다.
 
 - 원국 데이터(간지, 오행 개수, 십성, 대운)는 바꾸지 말고 해석만 하세요.
-- 오행은 기술 역량, 십성은 일하는 방식, 대운은 릴리즈 로드맵, 세운은 연간 릴리즈 노트로 비유합니다.
+- 섹션 key·hanja·nav 와 순서는 그대로 두고 내용만 풍성하게 씁니다. 명식 설명은 짧게, 성격·직업·돈·연애·결혼·자녀는 자세하게.
+- 모든 섹션의 evidence 에는 그 해석이 나온 글자·십성·연도를 적습니다. 근거 없는 주장은 쓰지 마세요.
 - 재미있되 단정적인 예언이나 건강·투자 조언은 하지 마세요.
 - 초안과 같은 JSON 구조로, 한국어 존댓말로 답하세요."""
 
 
 def _schema() -> dict:
-    s = {"type": "string"}
-    item = lambda *keys: {  # noqa: E731
-        "type": "object", "additionalProperties": False, "required": list(keys),
-        "properties": {k: ({"type": "integer"} if k == "year" else s) for k in keys},
-    }
-    return {
-        "type": "object", "additionalProperties": False,
-        "required": ["headline", "summary", "work_style", "strengths", "warnings",
-                     "patches", "roadmap", "releases", "closing"],
-        "properties": {
-            "headline": s, "summary": s, "closing": s,
-            "work_style": item("title", "body"),
-            "strengths": {"type": "array", "items": s},
-            "warnings": {"type": "array", "items": s},
-            "patches": {"type": "array", "items": s},
-            "roadmap": {"type": "array", "items": item("version", "pillar", "note")},
-            "releases": {"type": "array", "items": item("year", "pillar", "note")},
-        },
-    }
+    s, arr = {"type": "string"}, lambda item: {"type": "array", "items": item}
+
+    def obj(**props):
+        return {"type": "object", "additionalProperties": False, "required": list(props), "properties": props}
+
+    section = obj(
+        key=s, hanja=s, nav=s, title=s, sub=s, lead=s,
+        paras=arr(s),
+        cards=arr(obj(title=s, body=s, badge=s)),
+        stats=arr(obj(label=s, value=s, sub=s)),
+        bars=arr(obj(label=s, value={"type": "integer"}, note=s)),
+        timeline=arr(obj(when=s, title=s, body=s, now={"type": "boolean"})),
+        chips=arr(s),
+        evidence=arr(s),
+    )
+    return obj(headline=s, sections=arr(section), closing=s)
 
 
 def _anthropic(chart: dict, draft: dict, note: str) -> dict:

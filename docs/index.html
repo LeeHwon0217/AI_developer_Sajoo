@@ -15,9 +15,9 @@
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/app.js" defer></script>
 </head>
-<body>
+<body class="deck">
 <div class="petals" aria-hidden="true"></div>
-<header class="hero">
+<main class="track"><section class="slide hero" data-nav="표지">
   <div class="layers"><svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <defs>
     <linearGradient id="g-peak" x1="0" y1="0" x2="0" y2="1">
@@ -158,22 +158,28 @@
     <p class="meta">신청 링크 준비 중이에요.</p>
   </div>
   <div class="seal" aria-hidden="true"><span class="seal-char">命</span><span class="seal-sub">四柱</span></div>
-  <a class="scroll-hint" href="#start">스크롤을 내려 운명을 열어보세요<span>↓</span></a>
-</header>
-<main class="paper" id="start">
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">壹</span><span class="t">이렇게 봐드려요</span><small>개발자 언어로 푸는 사주</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="features"><div class="panel feature reveal" style="--i:0"><span class="mini-seal">壹</span><h3>시스템 스펙</h3><p>사주 원국 여덟 글자를 만세력으로 정확히 계산해요.</p></div><div class="panel feature reveal" style="--i:1"><span class="mini-seal">貳</span><h3>리소스 모니터</h3><p>오행 분포를 내 개발 역량 그래프로 바꿔 보여드려요.</p></div><div class="panel feature reveal" style="--i:2"><span class="mini-seal">參</span><h3>워크 스타일</h3><p>십성으로 메이커형인지, 리서처형인지 알려드려요.</p></div><div class="panel feature reveal" style="--i:3"><span class="mini-seal">肆</span><h3>릴리즈 로드맵</h3><p>10년 단위 대운을 버전 태그처럼 정리해요.</p></div></div>
-  </section>
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">貳</span><span class="t">신청 방법</span><small>세 단계</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <ol class="steps">
-      <li class="reveal">양력 생년월일, 태어난 시간(모르면 비워두세요), 성별, 닉네임을 보내주세요.</li>
-      <li class="reveal">개발자가 직접 분석하고 다듬어요.</li>
-      <li class="reveal">나만 아는 링크로 결과 페이지를 받아요.</li>
-    </ol>
-  </section>
-  <footer><p>재미로 보는 해석이에요. 중요한 결정은 사주 말고 데이터로!</p></footer>
-</main>
+  <button class="scroll-hint" data-go="next">넘겨서 운명을 열어보세요<span>↓</span></button>
+</section><section class="slide" data-anim="stamp" data-nav="소개">
+  <span class="wm" aria-hidden="true">觀</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">觀</span>
+  <div><p class="s-num">01 · 소개</p><h2>이렇게 봐드려요</h2>
+  <p class="s-sub">17장의 풀이</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><h3>성격 · 겉과 속</h3><p>어떤 사람인지, 남들이 보는 나와 진짜 나</p></div><div class="card a" style="--d:3"><h3>직업 · 재물</h3><p>잘 맞는 직군과 적합도, 재물 그릇과 피크 시기</p></div><div class="card a" style="--d:4"><h3>연애 · 결혼 · 자녀</h3><p>연애 스타일, 결혼 시기, 자녀 수와 시기</p></div><div class="card a" style="--d:5"><h3>대운 · 올해 · 개운법</h3><p>10년 단위 로드맵과 운을 여는 습관</p></div></div></div>
+</section><section class="slide" data-anim="slide" data-nav="차별점">
+  <span class="wm" aria-hidden="true">證</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">證</span>
+  <div><p class="s-num">02 · 차별점</p><h2>챗봇 사주와 다른 점</h2>
+  <p class="s-sub">계산은 코드로, 해석은 사람이</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><h3>만세력 직접 계산</h3><p>태양 황경으로 절기를, 출생지 경도로 시간을 보정해요.</p></div><div class="card a" style="--d:3"><h3>모든 해석에 근거</h3><p>어느 글자에서 나온 말인지 장마다 보여드려요.</p></div></div></div>
+</section><section class="slide" data-anim="flip" data-nav="신청">
+  <span class="wm" aria-hidden="true">請</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">請</span>
+  <div><p class="s-num">03 · 신청</p><h2>신청 방법</h2>
+  <p class="s-sub">세 단계</p></div>
+</header><ol class="timeline"><li class="tl a" style="--d:2"><span class="tl-when">1</span><div><h3>정보 보내기</h3><p>양력 생년월일, 태어난 시간(모르면 비워두세요), 성별, 닉네임</p></div></li><li class="tl a" style="--d:3"><span class="tl-when">2</span><div><h3>분석</h3><p>개발자가 직접 계산하고 풀이를 다듬어요.</p></div></li><li class="tl a" style="--d:4"><span class="tl-when">3</span><div><h3>결과 받기</h3><p>나만 아는 링크로 결과 페이지를 받아요.</p></div></li></ol></div>
+</section></main>
 </body>
 </html>

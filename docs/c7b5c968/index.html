@@ -15,9 +15,9 @@
 <link rel="stylesheet" href="../assets/style.css">
 <script src="../assets/app.js" defer></script>
 </head>
-<body>
+<body class="deck">
 <div class="petals" aria-hidden="true"></div>
-<header class="hero">
+<main class="track"><section class="slide hero" data-nav="표지">
   <div class="layers"><svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <defs>
     <linearGradient id="g-peak" x1="0" y1="0" x2="0" y2="1">
@@ -155,186 +155,163 @@
     <p class="kicker">AI 개발자가 봐주는 사주</p>
     <h1 class="name"><span class="ink">이훤</span><span class="name-sub">님의 사주팔자</span></h1>
     <p class="headline">이훤 님은 컴파일은 끝났는데 아직 배포 버튼을 안 누른 덩굴형 엔지니어</p>
-    <p class="meta">1998-02-17 14:30 · 남 · 보정 지방시 1998-02-17 13:58</p>
+    <p class="meta">1998-02-17 14:30 · 남</p>
   </div>
   <div class="seal" aria-hidden="true"><span class="seal-char">乙</span><span class="seal-sub">日干</span></div>
-  <a class="scroll-hint" href="#start">스크롤을 내려 운명을 열어보세요<span>↓</span></a>
-</header>
-<main class="paper" id="start">
-  
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">壹</span><span class="t">시스템 스펙</span><small>사주 원국 여덟 글자</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="pillars"><div class="pillar stamp" style="--i:0">
+  <button class="scroll-hint" data-go="next">넘겨서 운명을 열어보세요<span>↓</span></button>
+</section><section class="slide" data-anim="stamp" data-nav="명식">
+  <span class="wm" aria-hidden="true">命</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">命</span>
+  <div><p class="s-num">01 · 명식</p><h2>명식 한눈에</h2>
+  <p class="s-sub">어려운 건 이것만 알면 돼요</p></div>
+</header><div class="pillars"><div class="pillar a" style="--d:2">
   <div class="plabel">시주</div>
   <div class="pgod">편인</div>
   <div class="char water">癸</div>
-  <div class="ko">계 · 수</div>
   <div class="char earth">未</div>
-  <div class="ko">미 · 토</div>
   <div class="pgod">편재</div>
-</div><div class="pillar stamp me" style="--i:1">
+</div><div class="pillar a me" style="--d:3">
   <div class="plabel">일주</div>
-  <div class="pgod">나 (일간)</div>
+  <div class="pgod">나</div>
   <div class="char wood">乙</div>
-  <div class="ko">을 · 목</div>
   <div class="char earth">未</div>
-  <div class="ko">미 · 토</div>
   <div class="pgod">편재</div>
-</div><div class="pillar stamp" style="--i:2">
+</div><div class="pillar a" style="--d:4">
   <div class="plabel">월주</div>
   <div class="pgod">겁재</div>
   <div class="char wood">甲</div>
-  <div class="ko">갑 · 목</div>
   <div class="char wood">寅</div>
-  <div class="ko">인 · 목</div>
   <div class="pgod">겁재</div>
-</div><div class="pillar stamp" style="--i:3">
+</div><div class="pillar a" style="--d:5">
   <div class="plabel">년주</div>
   <div class="pgod">정재</div>
   <div class="char earth">戊</div>
-  <div class="ko">무 · 토</div>
   <div class="char wood">寅</div>
-  <div class="ko">인 · 목</div>
   <div class="pgod">겁재</div>
-</div></div>
-    <p class="lead reveal">일간 乙(음木), 寅월생. 덩굴처럼 유연하게 어디든 감아 오르는 타입인데, 원국 여덟 글자 중 넷이 木이라 학습력과 성장 에너지가 꽉 차 있어요(신강). 문제는 출구예요. 만든 걸 밖으로 내보내는 火와 기준을 세워주는 金이 0개라, 에너지가 로컬 브랜치에만 쌓이기 쉬운 구조입니다.</p>
-  </section>
-
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">貳</span><span class="t">리소스 모니터</span><small>오행 분포</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="panel elements"><div class="el-row reveal" style="--i:0; --v:50%">
-  <span class="el-hj wood">木</span>
-  <span class="el-name">목 <small>성장 · 학습</small></span>
-  <span class="el-track"><span class="el-fill wood-bg"></span></span>
-  <span class="el-val">4<em class="st-high">과다</em></span>
-</div>
-<div class="el-row reveal" style="--i:1; --v:0%">
-  <span class="el-hj fire">火</span>
-  <span class="el-name">화 <small>표현 · 출시</small></span>
-  <span class="el-track"><span class="el-fill fire-bg"></span></span>
-  <span class="el-val">0<em class="st-missing">부족</em></span>
-</div>
-<div class="el-row reveal" style="--i:2; --v:38%">
-  <span class="el-hj earth">土</span>
-  <span class="el-name">토 <small>안정 · 운영</small></span>
-  <span class="el-track"><span class="el-fill earth-bg"></span></span>
-  <span class="el-val">3<em class="st-high">과다</em></span>
-</div>
-<div class="el-row reveal" style="--i:3; --v:0%">
-  <span class="el-hj metal">金</span>
-  <span class="el-name">금 <small>규칙 · 품질</small></span>
-  <span class="el-track"><span class="el-fill metal-bg"></span></span>
-  <span class="el-val">0<em class="st-missing">부족</em></span>
-</div>
-<div class="el-row reveal" style="--i:4; --v:12%">
-  <span class="el-hj water">水</span>
-  <span class="el-name">수 <small>지식 · 리서치</small></span>
-  <span class="el-track"><span class="el-fill water-bg"></span></span>
-  <span class="el-val">1<em class="st-ok">적정</em></span>
-</div></div>
-  </section>
-
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">參</span><span class="t">워크 스타일</span><small>십성</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="panel style-card reveal">
-      <span class="wm big">比劫</span>
-      <h3>인디 해커형 (오픈소스 메인테이너 × 프로덕트 감각)</h3>
-      <p>비겁 3, 재성 3. 내 방식대로 만드는 독립성과 &#x27;이게 돈이 되나, 쓸모가 있나&#x27;를 보는 실용 감각이 같이 있어요. 혼자 사이드 프로젝트를 굴려 실제 사용자까지 데려가는 데 최적화된 조합. 대신 관성(조직·규칙)이 0이라 위에서 내려오는 프로세스에는 쉽게 지칩니다.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">肆</span><span class="t">린트 결과</span><small>길 · 경 · 보</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <ul class="lint">
-      <li class="lint-item good reveal"><span class="mini-seal">吉</span><p>木×4 성장 · 학습: 새 프레임워크를 주말 하나에 흡수하는 타입. 러닝 커브가 남들보다 짧아요.</p></li>
-<li class="lint-item good reveal"><span class="mini-seal">吉</span><p>土×3 재성: 기술보다 결과물과 쓸모를 먼저 보는 감각. 만든 걸 &#x27;제품&#x27;으로 생각할 줄 압니다.</p></li>
-<li class="lint-item good reveal"><span class="mini-seal">吉</span><p>癸水 인성(시주): 늦게라도 꾸준히 공부하고 문서를 파는 힘이 뒤를 받쳐줘요.</p></li>
-      <li class="lint-item warn reveal"><span class="mini-seal">警</span><p>木 과다 — 레포는 늘어나는데 README가 없는 상태가 되기 쉬워요. 새 프로젝트를 열기 전에 하나를 닫는 WIP 제한을 두세요.</p></li>
-<li class="lint-item warn reveal"><span class="mini-seal">警</span><p>출구 없음 — 식상(火) 0. 머릿속엔 완성됐는데 아무도 본 적 없는 프로젝트가 있다면 그게 이 사주의 전형적인 버그입니다.</p></li>
-      <li class="lint-item patch reveal"><span class="mini-seal">補</span><p>火 (용신) — 가장 중요한 패치. 배포, 데모, 블로그, 발표처럼 &#x27;보여주는 행위&#x27;가 이 사주의 막힌 출구를 뚫어요. 완성도 70%에서 공개하는 습관을 들이세요.</p></li>
-<li class="lint-item patch reveal"><span class="mini-seal">補</span><p>金 — 마감과 리뷰어를 외부에서 들여오세요. 해커톤, 공모전, 코드 리뷰를 받는 오픈소스 기여가 스스로 만들기 어려운 규칙을 대신 걸어줍니다.</p></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">伍</span><span class="t">릴리즈 로드맵</span><small>대운 · 순행 · 6세 시작</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="scroll-roll reveal">
-      <div class="rod"></div>
-      <ol class="road"><li class="road-item reveal" style="--i:0">
-  <div class="road-age">6<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">乙卯 (을묘)</span><span class="tag">v6</span></h3>
-    <p>동료와 나란히 크는 시기. 경쟁심과 또래 영향이 컸을 때예요.</p>
+</div></div><div class="el-chips a" style="--d:6"><span class="el-chip wood-bg">木 4</span><span class="el-chip fire-bg">火 0</span><span class="el-chip earth-bg">土 3</span><span class="el-chip metal-bg">金 0</span><span class="el-chip water-bg">水 1</span></div><p class="lead a" style="--d:7">주인공 글자는 乙(을목). 바위도 타고 오르는 덩굴이에요.</p><p class="para a" style="--d:8">나무 기운(木)이 여덟 글자 중 넷, 내 편 점수 6/10으로 &#x27;신강&#x27;. 힘과 학습 에너지가 넘치는 사주예요.</p><p class="para a" style="--d:9">가장 필요한 글자(용신)는 火(불). 겉 글자엔 하나도 없지만 땅속(지장간)에 네 개가 숨어 있어요. 재능은 있는데 아직 안 꺼낸 상태라는 뜻이고, 이 풀이 전체를 관통하는 키워드예요.</p><div class="evidence a" style="--d:10"><span class="ev-label">근거</span><span>일간 乙(음木)</span><span>신강 6/10</span><span>木4 火0 土3 金0 水1</span><span>지장간 丙丁 ×4</span><span>용신 火</span></div></div>
+</section><section class="slide" data-anim="slide" data-nav="성격">
+  <span class="wm" aria-hidden="true">性</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">性</span>
+  <div><p class="s-num">02 · 성격</p><h2>어떤 사람인가</h2>
+  <p class="s-sub">덩굴 한 줄기와 호랑이 두 마리</p></div>
+</header><p class="lead a" style="--d:2">부드럽게 웃으며 맞춰주지만, 결국 자기가 정한 방향으로 끝까지 감아 올라가는 사람.</p><p class="para a" style="--d:3">乙木은 혼자 우뚝 서는 나무가 아니라 주변 구조물을 타고 오르는 덩굴이에요. 처음 보는 환경에서도 금방 길을 찾고, 누구와도 무난하게 어울려요. 그런데 이 사주엔 寅(호랑이) 두 마리와 甲(큰 나무)이 함께 있어요. 그래서 덩굴인데 뿌리가 아주 단단해요. 순해 보이지만 자존심과 고집은 상위 10%.</p><p class="para a" style="--d:4">일지와 시지에 화개(華蓋)가 둘. 혼자 깊게 파고드는 시간, 창작과 철학적 고민을 즐기는 기질이에요. 여기에 寅未 귀문이 네 쌍이나 겹쳐 직관이 날카롭고, 남들이 못 보는 걸 먼저 봐요. 대신 그만큼 예민해서 컨디션이 나쁠 땐 생각이 꼬리를 물어요.</p><div class="chips a" style="--d:5"><span>유연함</span><span>숨은 고집</span><span>날카로운 직관</span><span>몰입</span><span>예민함</span><span>실속</span></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>일간 乙</span><span>년·월지 寅寅 (겁재)</span><span>월간 甲 (겁재)</span><span>화개: 일지·시지 未</span><span>寅–未 귀문 ×4</span></div></div>
+</section><section class="slide" data-anim="flip" data-nav="겉과 속">
+  <span class="wm" aria-hidden="true">面</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">面</span>
+  <div><p class="s-num">03 · 겉과 속</p><h2>남들이 보는 나 vs 진짜 나</h2>
+  <p class="s-sub">월주는 사회의 얼굴, 일지는 속마음</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">甲寅</span><h3>남들이 보는 나</h3><p>월주가 甲寅, 큰 나무와 호랑이예요. 밖에선 &#x27;주관 뚜렷하고 일 잘하는 사람&#x27;, 조금은 센 사람으로 보여요. 처음 만난 사람은 이훤 님을 실제보다 훨씬 단단하고 독립적인 사람으로 기억해요.</p></div><div class="card a" style="--d:3"><span class="badge">乙未</span><h3>진짜 나</h3><p>일주는 乙未, 마른 여름 땅 위의 덩굴. 속은 생각보다 현실적이고 안정과 실속을 원해요. &#x27;이거 해서 뭐가 남지?&#x27;를 늘 계산하고, 사람에게 마음을 쉽게 다 주지 않아요.</p></div><div class="card a" style="--d:4"><span class="badge">귀문</span><h3>그 사이의 간극</h3><p>겉의 강함과 속의 섬세함 사이가 넓어요. 그래서 &#x27;생각보다 여리네&#x27;와 &#x27;의외로 계산적이네&#x27;를 둘 다 들어요. 둘 다 맞는 말이에요.</p></div></div><div class="evidence a" style="--d:5"><span class="ev-label">근거</span><span>월주 甲寅 (겁재·겁재)</span><span>일지 未 (편재)</span><span>寅–未 귀문</span></div></div>
+</section><section class="slide" data-anim="rise" data-nav="재능">
+  <span class="wm" aria-hidden="true">才</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">才</span>
+  <div><p class="s-num">04 · 재능</p><h2>타고난 재능</h2>
+  <p class="s-sub">네 개의 무기</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">木×4</span><h3>빠른 흡수력</h3><p>새 언어나 프레임워크를 주말 하나에 익히는 러닝 커브. 학습 속도가 가장 큰 무기예요.</p></div><div class="card a" style="--d:3"><span class="badge">財×3</span><h3>사업 감각</h3><p>기술 자체보다 &#x27;이게 누구한테 돈이 되나&#x27;를 먼저 봐요. 개발자 중에선 드문 실리 감각이에요.</p></div><div class="card a" style="--d:4"><span class="badge">丙丁</span><h3>숨은 표현력</h3><p>글, 디자인, 말로 보여주는 재능이 땅속에 묻혀 있어요. 꺼내기만 하면 가장 크게 터질 재능.</p></div><div class="card a" style="--d:5"><span class="badge">華蓋</span><h3>몰입과 통찰</h3><p>혼자 깊게 파는 시간에, 남들이 못 보는 연결고리를 찾아내요.</p></div></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>木4</span><span>재성 3 (戊·未·未)</span><span>지장간 丙丁 ×4</span><span>화개 ×2</span></div></div>
+</section><section class="slide" data-anim="stamp" data-nav="약점">
+  <span class="wm" aria-hidden="true">病</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">病</span>
+  <div><p class="s-num">05 · 약점</p><h2>조심할 버그</h2>
+  <p class="s-sub">알고 있으면 피할 수 있어요</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">火 0</span><h3>출구 없음</h3><p>머릿속에선 완성, 세상엔 미공개. 완벽해질 때까지 안 보여주다가 타이밍을 놓쳐요.</p></div><div class="card a" style="--d:3"><span class="badge">比劫×3</span><h3>군겁쟁재</h3><p>내 몫을 노리는 경쟁자 구조예요. 동업, 돈 빌려주기, 보증이 이 사주의 대표 리스크.</p></div><div class="card a" style="--d:4"><span class="badge">金 0</span><h3>제약 없음</h3><p>마감, 규칙, 상사가 없으면 늘어져요. 반대로 위에서 누르는 조직에선 숨 막혀 해요.</p></div><div class="card a" style="--d:5"><span class="badge">鬼門</span><h3>생각 과열</h3><p>새벽까지 이어지는 생각 루프. 큰 결정 전엔 &#x27;하루 재우기&#x27; 규칙이 필요해요.</p></div></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>火0 · 金0</span><span>비겁 3 · 재성 3</span><span>관성 0</span><span>귀문 ×4</span></div></div>
+</section><section class="slide" data-anim="slide" data-nav="일하는 법">
+  <span class="wm" aria-hidden="true">工</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">工</span>
+  <div><p class="s-num">06 · 일하는 법</p><h2>일하는 방식</h2>
+  <p class="s-sub">인디 해커형</p></div>
+</header><p class="lead a" style="--d:2">혼자 끝까지 만들고, 직접 시장에 내놓을 때 가장 강해요.</p><p class="para a" style="--d:3">비겁(나와 같은 기운) 3, 재성(결과와 돈) 3, 관성(조직과 규칙) 0. 정해진 프로세스를 따르기보다 내가 오너인 프로젝트에서 성과가 폭발하는 구조예요. &#x27;시키는 일 잘하는 사람&#x27;보다 &#x27;맡기면 알아서 끝내는 사람&#x27;.</p><p class="para a" style="--d:4">협업 팁: 혼자 다 하려는 경향이 있으니 처음부터 공개 마감일을 잡고, 리뷰어 한 명을 정해 두세요. 사주에 없는 金(규칙)을 바깥에서 빌려오는 셈이에요.</p><div class="chips a" style="--d:5"><span>오너십 ↑</span><span>속도 ↑</span><span>실리 감각 ↑</span><span>프로세스 ↓</span><span>문서화 ↓</span></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>비겁 3</span><span>재성 3</span><span>관성 0</span><span>용신 식상(火)</span></div></div>
+</section><section class="slide" data-anim="flip" data-nav="직업">
+  <span class="wm" aria-hidden="true">業</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">業</span>
+  <div><p class="s-num">07 · 직업</p><h2>잘 맞는 직업</h2>
+  <p class="s-sub">적합도</p></div>
+</header><p class="lead a" style="--d:2">핵심은 &#x27;만들고, 보여주고, 파는&#x27; 일.</p><div class="fit"><div class="fit-row a" style="--d:3"><span class="fit-label">프로덕트 엔지니어 · 1인 SaaS<small>기술 + 사업 감각</small></span><span class="fit-track"><span class="fit-fill" style="--v:94%"></span></span><span class="fit-val">94%</span></div><div class="fit-row a" style="--d:4"><span class="fit-label">스타트업 창업 · 초기 멤버<small>오너십, 2033년 재물 대운</small></span><span class="fit-track"><span class="fit-fill" style="--v:90%"></span></span><span class="fit-val">90%</span></div><div class="fit-row a" style="--d:5"><span class="fit-label">테크 크리에이터<small>유튜브·블로그·강의 = 용신 火</small></span><span class="fit-track"><span class="fit-fill" style="--v:86%"></span></span><span class="fit-val">86%</span></div><div class="fit-row a" style="--d:6"><span class="fit-label">프론트엔드 · UX 엔지니어<small>乙木의 감각, 사용자 접점</small></span><span class="fit-track"><span class="fit-fill" style="--v:84%"></span></span><span class="fit-val">84%</span></div><div class="fit-row a" style="--d:7"><span class="fit-label">AI 에이전트 · 자동화 개발<small>빠른 흡수와 직관</small></span><span class="fit-track"><span class="fit-fill" style="--v:80%"></span></span><span class="fit-val">80%</span></div><div class="fit-row a" style="--d:8"><span class="fit-label">대기업 관리직 · 공무원<small>관성 0, 맞지 않는 옷</small></span><span class="fit-track"><span class="fit-fill" style="--v:42%"></span></span><span class="fit-val">42%</span></div></div><p class="para a" style="--d:9">개발만 하는 자리보다 개발과 시장 사이에 서는 자리에서 연봉이 가장 빠르게 올라요.</p><div class="evidence a" style="--d:10"><span class="ev-label">근거</span><span>재성 3</span><span>비겁 3</span><span>관성 0</span><span>용신 火(식상)</span></div></div>
+</section><section class="slide" data-anim="rise" data-nav="재물">
+  <span class="wm" aria-hidden="true">財</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">財</span>
+  <div><p class="s-num">08 · 재물</p><h2>돈은 얼마나 벌까</h2>
+  <p class="s-sub">재물 그릇 · 사주로 본 추정치예요</p></div>
+</header><div class="stats"><div class="stat a" style="--d:2"><span class="st-label">재물 그릇</span><span class="st-value">부자 그릇</span><span class="st-sub">순자산 30~50억이 상한선</span></div><div class="stat a" style="--d:3"><span class="st-label">인생 최대 재물 구간</span><span class="st-value">2033–2042</span><span class="st-sub">36세 대운 戊午 · 정재+식신</span></div><div class="stat a" style="--d:4"><span class="st-label">두 번째 파도</span><span class="st-value">2043–2052</span><span class="st-sub">46세 대운 己未 · 사업 확장</span></div></div><p class="para a" style="--d:5">신강한 몸에 재성이 셋. &#x27;돈을 감당할 체력이 있는 사주&#x27;(신강재왕)라 그릇 자체는 커요. 다만 돈의 출구인 식상(火)이 겉에 없어서 20대엔 돈이 잘 안 붙고, 30대 중반 火土 대운부터 본격적으로 돌기 시작해요.</p><p class="para a" style="--d:6">버는 방식은 월급보다 &#x27;내가 만든 것에서 나오는 돈&#x27;. 제품, 지분, 콘텐츠 수익이에요.</p><p class="para a" style="--d:7">주의: 비겁이 재성만큼 많아 돈이 사람을 통해 새요. 동업 계약, 돈 거래, 보증은 반드시 문서로.</p><div class="evidence a" style="--d:8"><span class="ev-label">근거</span><span>신강 6/10</span><span>재성 3</span><span>식상 0 (지장간 4)</span><span>대운 戊午 · 己未</span></div></div>
+</section><section class="slide" data-anim="stamp" data-nav="연애">
+  <span class="wm" aria-hidden="true">愛</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">愛</span>
+  <div><p class="s-num">09 · 연애</p><h2>연애 스타일</h2>
+  <p class="s-sub">늦게 열고, 오래 간다</p></div>
+</header><p class="lead a" style="--d:2">다정하게 맞춰주는 것 같지만, 마음의 문은 늦게 열고 한 번 열면 오래 가는 타입.</p><p class="para a" style="--d:3">乙木은 기댈 곳을 찾는 덩굴이라 연애에서 상대에게 잘 맞춰줘요. 그런데 비겁이 강해 내 시간과 내 공간은 절대 양보 못 해요. &#x27;사귀어도 각자의 서버는 따로&#x27;가 이상적인 연애예요.</p><p class="para a" style="--d:4">끌리는 상대: 배우자 자리(일지)가 편재 未. 밝고 활동적이고 생활력 있는 사람, 현실 감각이 좋은 사람에게 끌려요. 카페에서 대화만 하는 데이트보다 같이 뭔가를 해보는 데이트에서 마음이 움직여요.</p><p class="para a" style="--d:5">약점은 표현이에요. 火(표현)가 겉에 없어 &#x27;좋아한다&#x27;는 말보다 행동, 선물, 문제 해결로 마음을 보여줘요. 상대가 서운해한다면 원인은 대부분 말이 부족해서예요.</p><p class="para a" style="--d:6">인기: 재성이 셋이라 이성 인연은 많은 편. 다만 비겁도 셋이라 &#x27;같은 사람을 좋아하는 친구&#x27;가 생기는 삼각 구도를 조심하세요.</p><div class="evidence a" style="--d:7"><span class="ev-label">근거</span><span>일간 乙</span><span>일지 未 (편재)</span><span>재성 3 · 비겁 3</span><span>火 0</span></div></div>
+</section><section class="slide" data-anim="slide" data-nav="결혼">
+  <span class="wm" aria-hidden="true">緣</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">緣</span>
+  <div><p class="s-num">10 · 결혼</p><h2>결혼과 배우자</h2>
+  <p class="s-sub">결혼 시기</p></div>
+</header><p class="lead a" style="--d:2">결혼 적기는 2026~2028년. 그중 2028년(31세)이 가장 유력해요.</p><p class="para a" style="--d:3">배우자상: 생활력 있고 활동적인 사람. 이훤 님보다 현실 감각이 좋아 살림과 경제를 함께 키워가는 파트너예요. 년간에 아내 별(정재 戊)이 있어 연상이거나, 집안이나 지인 소개로 만날 가능성도 있어요.</p><ol class="timeline"><li class="tl a now" style="--d:4"><span class="tl-when">2026 · 29세</span><div><h3>丙午 · 만남<span class="now-badge">지금</span></h3><p>午가 배우자 자리 未와 육합. 결혼할 사람을 만나거나 지금 인연이 깊어지는 해.</p></div></li><li class="tl a" style="--d:5"><span class="tl-when">2027 · 30세</span><div><h3>丁未 · 현실화</h3><p>배우자 자리와 같은 未가 한 번 더. 동거나 상견례처럼 관계가 현실이 되는 해.</p></div></li><li class="tl a" style="--d:6"><span class="tl-when">2028 · 31세</span><div><h3>戊申 · 결혼</h3><p>아내 별 정재 戊가 하늘에 뜨는 해. 결혼 확률이 가장 높아요.</p></div></li><li class="tl a" style="--d:7"><span class="tl-when">2030 · 33세</span><div><h3>庚戌 · 다음 창</h3><p>놓쳤다면 다음 기회. 단 未戌 형이라 갈등을 한 번 넘어야 성사돼요.</p></div></li></ol><div class="evidence a" style="--d:8"><span class="ev-label">근거</span><span>일지 未</span><span>2026 午未 육합</span><span>2028 戊 정재</span><span>년간 戊 정재</span><span>2030 戌–未 형</span></div></div>
+</section><section class="slide" data-anim="flip" data-nav="자녀">
+  <span class="wm" aria-hidden="true">子</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">子</span>
+  <div><p class="s-num">11 · 자녀</p><h2>자녀운</h2>
+  <p class="s-sub">몇 명, 언제</p></div>
+</header><div class="stats"><div class="stat a" style="--d:2"><span class="st-label">자녀 수</span><span class="st-value">2명</span><span class="st-sub">1명일 확률도 높아요. 2명이 상한</span></div><div class="stat a" style="--d:3"><span class="st-label">첫째</span><span class="st-value">2030년 전후</span><span class="st-sub">33세 · 庚戌년 정관</span></div><div class="stat a" style="--d:4"><span class="st-label">구성</span><span class="st-value">딸 → 아들</span><span class="st-sub">정관(딸) 다음 편관(아들)</span></div></div><p class="para a" style="--d:5">남자 사주에서 자녀는 관성(金)인데 원국에 0개예요. 그래서 자녀 인연이 저절로 빨리 오진 않고, 결혼 후 운에서 金이 들어오는 해에 찾아와요. 2029 己酉, 2030 庚戌, 2031 辛亥가 연달아 金이 들어오는 &#x27;자녀 창&#x27;이에요.</p><p class="para a" style="--d:6">시주(자녀 자리)에 편인 癸와 편재 未. 아이가 독립적이고 머리가 좋으며 자기 세계가 뚜렷해요. 공부 잔소리보다 하고 싶은 걸 밀어줄 때 크게 자라요.</p><div class="evidence a" style="--d:7"><span class="ev-label">근거</span><span>관성 0</span><span>2029 酉 · 2030 庚(정관) · 2031 辛(편관)</span><span>시주 癸未 (편인·편재)</span></div></div>
+</section><section class="slide" data-anim="rise" data-nav="인연">
+  <span class="wm" aria-hidden="true">友</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">友</span>
+  <div><p class="s-num">12 · 인연</p><h2>인간관계와 궁합</h2>
+  <p class="s-sub">띠로 보는 궁합</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">午 · 亥</span><h3>찰떡 궁합</h3><p>말띠(午)는 일지 未와 육합, 년·월지 寅과 반합까지. 최고의 궁합이에요. 돼지띠(亥)는 寅亥합으로 든든한 내 편이 돼요.</p></div><div class="card a" style="--d:3"><span class="badge">火</span><h3>귀인</h3><p>火가 강한 사람. 밝고 표현을 잘하는 사람이 이훤 님의 막힌 출구를 열어줘요. 여름생이거나 丙·丁 일간인 사람.</p></div><div class="card a" style="--d:4"><span class="badge">申 · 丑</span><h3>부딪히는 인연</h3><p>원숭이띠(申)는 寅申충, 소띠(丑)는 丑未충. 나쁜 사람이라서가 아니라 리듬이 달라 에너지 소모가 커요.</p></div><div class="card a" style="--d:5"><span class="badge">比劫</span><h3>친구 관계</h3><p>비겁이 많아 친구는 많지만 돈이 얽히면 틀어져요. 친구와는 돈 거래 없이 오래 가는 게 정답이에요.</p></div></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>일지 未</span><span>년·월지 寅</span><span>午未 육합</span><span>寅午 반합</span><span>寅亥 육합</span><span>寅申 충</span><span>丑未 충</span></div></div>
+</section><section class="slide" data-anim="stamp" data-nav="건강">
+  <span class="wm" aria-hidden="true">身</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">身</span>
+  <div><p class="s-num">13 · 건강</p><h2>컨디션 관리</h2>
+  <p class="s-sub">오행 전통 해석이에요. 의학적 진단이 아니에요</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">木 과다</span><h3>목 · 어깨 · 눈</h3><p>木이 많은 사주는 근육 긴장과 눈 피로로 신호가 와요. 50분 코딩, 10분 스트레칭.</p></div><div class="card a" style="--d:3"><span class="badge">金 0</span><h3>호흡기 · 피부</h3><p>金이 없어 환절기 감기와 건조한 피부를 조심하세요. 특히 가을.</p></div><div class="card a" style="--d:4"><span class="badge">火 0</span><h3>수면 리듬</h3><p>생각이 많아 잠드는 데 오래 걸려요. 아침 햇빛 15분이 火를 채우는 가장 쉬운 방법이에요.</p></div><div class="card a" style="--d:5"><span class="badge">比劫</span><h3>번아웃 신호</h3><p>혼자 다 떠안을 때 와요. 1년에 한 번은 완전히 꺼두는 기간을 만드세요.</p></div></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>木4</span><span>金0</span><span>火0</span><span>귀문 ×4</span></div></div>
+</section><section class="slide" data-anim="slide" data-nav="대운">
+  <span class="wm" aria-hidden="true">運</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">運</span>
+  <div><p class="s-num">14 · 대운</p><h2>인생 로드맵</h2>
+  <p class="s-sub">10년 단위 대운 · 순행 · 6세 시작</p></div>
+</header><ol class="timeline many" style="--rows:4"><li class="tl a" style="--d:2"><span class="tl-when">2003–2012</span><div><h3>乙卯 · 6세</h3><p>비견 대운. 또래 속 경쟁 속에서 자아가 단단해진 시기.</p></div></li><li class="tl a" style="--d:3"><span class="tl-when">2013–2022</span><div><h3>丙辰 · 16세</h3><p>처음으로 火가 들어온 시기. 진로를 틀고 내 길을 찾기 시작했어요.</p></div></li><li class="tl a now" style="--d:4"><span class="tl-when">2023–2032</span><div><h3>丁巳 · 26세<span class="now-badge">지금</span></h3><p>용신 火 대운. 만들고 보여주는 게 가장 잘 풀리는 황금기. 巳는 역마라 이직·이사·해외 이동이 많고, 寅巳 형이라 계약서는 꼼꼼히.</p></div></li><li class="tl a" style="--d:5"><span class="tl-when">2033–2042</span><div><h3>戊午 · 36세</h3><p>정재 + 식신. 실력이 돈으로 바뀌는 인생 최대 재물 구간.</p></div></li><li class="tl a" style="--d:6"><span class="tl-when">2043–2052</span><div><h3>己未 · 46세</h3><p>편재. 사업과 판이 커지는 시기. 동업 리스크도 같이 커져요.</p></div></li><li class="tl a" style="--d:7"><span class="tl-when">2053–2062</span><div><h3>庚申 · 56세</h3><p>정관. 처음으로 金이 들어와 명예와 직함, 공식적인 인정이 따라와요.</p></div></li><li class="tl a" style="--d:8"><span class="tl-when">2063–2072</span><div><h3>辛酉 · 66세</h3><p>편관. 책임이 무거워지지만 영향력도 최고조.</p></div></li><li class="tl a" style="--d:9"><span class="tl-when">2073–2082</span><div><h3>壬戌 · 76세</h3><p>인성. 경험을 가르치고 기록으로 남기는 시기.</p></div></li></ol><div class="evidence a" style="--d:10"><span class="ev-label">근거</span><span>순행 · 대운수 6</span><span>丁巳 = 용신 火</span><span>巳 = 역마 (일지 未 기준)</span><span>寅–巳 형</span></div></div>
+</section><section class="slide" data-anim="flip" data-nav="올해">
+  <span class="wm" aria-hidden="true">年</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">年</span>
+  <div><p class="s-num">15 · 올해</p><h2>올해와 내년</h2>
+  <p class="s-sub">2026 · 2027 · 2028</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">인연 · 용신</span><h3>2026 丙午 · 폭발</h3><p>火가 한꺼번에 둘. 午가 원국의 寅 둘과 반합해 불이 크게 일어나고, 배우자 자리 未와 육합까지. 숨겨둔 프로젝트를 공개하고 이직·창업·연애 모두 &#x27;시작&#x27;하기 좋은 해예요. 남은 두 달, 출시든 고백이든 미루지 마세요.</p></div><div class="card a" style="--d:3"><span class="badge">재물</span><h3>2027 丁未 · 결실</h3><p>식신(만들기) + 편재(돈). 2026년에 연 걸 수익으로 연결하는 해. 未가 하나 더 와서 일과 집의 변화가 겹치니 계약 조건은 꼼꼼히.</p></div><div class="card a" style="--d:4"><span class="badge">인연 · 이동</span><h3>2028 戊申 · 결혼과 이동</h3><p>정재가 떠서 결혼과 큰 계약의 해. 申은 역마(년지 寅 기준)라 이사나 해외도 유력해요. 寅申 충이 있어 건강과 교통은 한 번 더 확인하세요.</p></div></div><div class="evidence a" style="--d:5"><span class="ev-label">근거</span><span>2026 午: 寅午 반합 · 午未 육합</span><span>2027 未: 식신·편재</span><span>2028 戊 정재 · 申 역마 · 寅申 충</span></div></div>
+</section><section class="slide" data-anim="rise" data-nav="개운법">
+  <span class="wm" aria-hidden="true">福</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">福</span>
+  <div><p class="s-num">16 · 개운법</p><h2>운을 여는 법</h2>
+  <p class="s-sub">용신 火(화)</p></div>
+</header><div class="stats"><div class="stat a" style="--d:2"><span class="st-label">행운의 색</span><span class="st-value">빨강 · 주황</span><span class="st-sub">보라도 좋아요</span></div><div class="stat a" style="--d:3"><span class="st-label">방향</span><span class="st-value">남쪽</span><span class="st-sub">남향 자리</span></div><div class="stat a" style="--d:4"><span class="st-label">숫자</span><span class="st-value">2 · 7</span><span class="st-sub">火의 수</span></div><div class="stat a" style="--d:5"><span class="st-label">계절</span><span class="st-value">여름</span><span class="st-sub">큰 시작은 5~7월에</span></div></div><div class="cards"><div class="card a" style="--d:6"><span class="badge">火</span><h3>매주 하나 배포</h3><p>완성도 70%에서 공개하세요. 블로그든 깃허브든 데모든. 이 사주에선 &#x27;보여주기&#x27;가 곧 개운이에요.</p></div><div class="card a" style="--d:7"><span class="badge">金</span><h3>남이 정한 마감에 올라타기</h3><p>공모전, 해커톤처럼 바깥 마감을 이용하세요. 없는 金을 빌려와요.</p></div><div class="card a" style="--d:8"><span class="badge">財</span><h3>돈은 문서로</h3><p>동업과 돈 거래는 반드시 계약서. 군겁쟁재를 막는 부적이에요.</p></div></div><div class="evidence a" style="--d:9"><span class="ev-label">근거</span><span>용신 火</span><span>희신 土</span><span>기신 木</span><span>金 0</span></div></div>
+</section><section class="slide" data-anim="stamp" data-nav="근거">
+  <span class="wm" aria-hidden="true">證</span>
+  <div class="slide-inner"><header class="s-head a" style="--d:1">
+  <span class="hj">證</span>
+  <div><p class="s-num">17 · 근거</p><h2>이 풀이가 다른 이유</h2>
+  <p class="s-sub">그냥 챗봇 사주와 무엇이 다른가</p></div>
+</header><div class="cards"><div class="card a" style="--d:2"><span class="badge">曆</span><h3>만세력 직접 계산</h3><p>1998-02-17 14:30을 서울 지방시 13:58로 보정하고, 태양 황경으로 입춘(2/4) 이후임을 확인해 戊寅년 甲寅월로 세웠어요. 일반 챗봇은 이 단계에서 년·월·시주를 자주 틀려요.</p></div><div class="card a" style="--d:3"><span class="badge">藏</span><h3>숨은 글자까지</h3><p>겉 여덟 글자엔 火가 0이지만 지장간엔 丙丁이 넷. 이걸 놓치면 &#x27;재능 없음&#x27;, 잡으면 &#x27;재능 미배포&#x27;. 해석이 정반대가 돼요.</p></div><div class="card a" style="--d:4"><span class="badge">合</span><h3>관계와 신살</h3><p>寅未 귀문 네 쌍, 화개 둘, 2026년 午未 육합과 寅午 반합까지 계산해서 연도를 짚었어요.</p></div><div class="card a" style="--d:5"><span class="badge">證</span><h3>모든 장에 근거</h3><p>각 장 아래 근거 칩에 해석이 나온 글자를 적었어요. 근거 없는 덕담은 넣지 않았어요.</p></div></div><div class="evidence a" style="--d:6"><span class="ev-label">근거</span><span>절입 입춘 1998-02-04</span><span>지방시 −32분</span><span>지장간 丁乙己 · 戊丙甲</span><span>귀문 ×4</span><span>화개 ×2</span></div></div>
+</section><section class="slide closing" data-anim="rise" data-nav="끝">
+  <span class="wm" aria-hidden="true">終</span>
+  <div class="slide-inner">
+    <p class="closing-text a" style="--d:1">리소스는 충분하고, 빠진 건 배포 파이프라인뿐. 지금이 火가 들어오는 10년이니, git push가 운명을 바꿀 타이밍입니다.</p>
+    <p class="a" style="--d:2"><button class="btn" data-go="0">처음부터 다시 보기</button></p>
+    <footer class="a" style="--d:3">
+      <p>AI 개발자가 봐주는 사주 · 재미로 보는 해석이며 중요한 결정의 근거가 아닙니다.</p>
+      <p><a href="../">← 처음으로</a></p>
+    </footer>
   </div>
-</li><li class="road-item reveal" style="--i:1">
-  <div class="road-age">16<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">丙辰 (병진)</span><span class="tag">v16</span></h3>
-    <p>상관(火) 대운. 처음으로 출구가 열려 기존 틀을 깨고 내 방향을 찾기 시작한 시기.</p>
-  </div>
-</li><li class="road-item reveal current" style="--i:2">
-  <div class="road-age">26<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">丁巳 (정사)</span><span class="tag">v26</span><span class="now">지금 여기</span></h3>
-    <p>지금 여기. 식신(火) 대운이라 원국에 없던 火가 10년 내내 들어옵니다. 만들고 내보내는 게 가장 잘 풀리는 황금 구간이에요. 이 시기에 쌓은 출시 이력이 이후 20년을 좌우합니다.</p>
-  </div>
-</li><li class="road-item reveal" style="--i:3">
-  <div class="road-age">36<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">戊午 (무오)</span><span class="tag">v36</span></h3>
-    <p>정재 대운. v26에 출시한 것들이 안정적인 보상으로 돌아오는 구간. 연봉, 지분, 꾸준한 수익.</p>
-  </div>
-</li><li class="road-item reveal" style="--i:4">
-  <div class="road-age">46<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">己未 (기미)</span><span class="tag">v46</span></h3>
-    <p>편재 대운. 판이 커지는 시기. 창업이나 큰 계약처럼 리스크와 리턴이 같이 큰 기회.</p>
-  </div>
-</li><li class="road-item reveal" style="--i:5">
-  <div class="road-age">56<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">庚申 (경신)</span><span class="tag">v56</span></h3>
-    <p>정관 대운. 원국에 없던 金이 처음 들어오며 직함과 공식적인 인정이 따라옵니다.</p>
-  </div>
-</li><li class="road-item reveal" style="--i:6">
-  <div class="road-age">66<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">辛酉 (신유)</span><span class="tag">v66</span></h3>
-    <p>편관 대운. 책임과 압박이 커지지만 그만큼 영향력도 큰 시기.</p>
-  </div>
-</li><li class="road-item reveal" style="--i:7">
-  <div class="road-age">76<small>세</small></div>
-  <div class="road-body">
-    <h3><span class="ganji">壬戌 (임술)</span><span class="tag">v76</span></h3>
-    <p>인성 대운. 쌓은 걸 가르치고 기록으로 남기는 시기.</p>
-  </div>
-</li></ol>
-      <div class="rod"></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="sec-title reveal"><span class="hj">陸</span><span class="t">릴리즈 노트</span><small>세운</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
-    <div class="releases"><article class="release flip reveal this-year" style="--i:0">
-  <span class="wm">丙午</span>
-  <h3><span class="year">2026</span> 丙午 (병오)</h3>
-  <p>火 두 개가 한꺼번에 들어오는 해. 상관 대운 v26 위에 상관 세운이 겹쳐서, 숨겨둔 프로젝트를 공개하고 기존 방식을 갈아엎기 좋은 해예요. 이직이나 새 스택 전환 욕구도 커지는데, 말이 앞서지 않게 데모부터 보여주면 혁신으로 인정받습니다.</p>
-</article>
-<article class="release flip reveal" style="--i:1">
-  <span class="wm">丁未</span>
-  <h3><span class="year">2027</span> 丁未 (정미)</h3>
-  <p>식신 + 재성의 해. 2026년에 터뜨린 걸 꾸준히 다듬어 실제 성과와 수입으로 연결하는 해. 지속 가능한 페이스로 v1.0 → v1.5를 만드는 데 집중하세요.</p>
-</article></div>
-  </section>
-
-  <section class="closing reveal">
-    <p>요약하면: 리소스는 충분하고, 빠진 건 배포 파이프라인뿐이에요. 마침 지금이 火가 들어오는 10년이니, 사주가 아니라 git push가 운명을 바꿀 타이밍입니다.</p>
-  </section>
-
-  <footer>
-    <p>AI 개발자가 봐주는 사주 · 재미로 보는 해석이며 중요한 결정의 근거가 아닙니다.</p>
-    <p><a href="../">← 처음으로</a></p>
-  </footer>
-</main>
+</section></main>
 </body>
 </html>

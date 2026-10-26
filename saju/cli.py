@@ -12,6 +12,7 @@ import json
 import secrets
 from datetime import date, datetime
 
+from .analysis import analyze
 from .chart import build_chart
 from .reading import draft_reading
 from .render import DOCS, READINGS, build
@@ -31,11 +32,12 @@ def cmd_new(a: argparse.Namespace) -> None:
     this_year = date.today().year
     chart = build_chart(birth, a.gender, has_hour, None if a.no_lon else a.lon,
                         years=(this_year, this_year + 1))
-    reading = draft_reading(chart, a.name)
+    analysis = analyze(chart)
+    reading = draft_reading(chart, analysis, a.name)
 
     if a.llm:
         from .llm import rewrite
-        reading = rewrite(a.llm, chart.to_dict(), reading, a.note)
+        reading = rewrite(a.llm, {**chart.to_dict(), "analysis": analysis.to_dict()}, reading, a.note)
 
     slug = a.slug or secrets.token_hex(4)
     data = {
@@ -44,6 +46,7 @@ def cmd_new(a: argparse.Namespace) -> None:
         "note": a.note,
         "created": date.today().isoformat(),
         "chart": chart.to_dict(),
+        "analysis": analysis.to_dict(),
         "reading": reading,
     }
     READINGS.mkdir(exist_ok=True)
