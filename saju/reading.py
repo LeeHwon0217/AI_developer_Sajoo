@@ -54,6 +54,64 @@ EL_BODY = {
 }
 
 
+# 그해(또는 그 대운)에 무슨 일이 있었을지: 십성별 과거형 문장
+GOD_PAST = {
+    "비견": "친구나 형제와 늘 붙어 다니고, 비교도 많이 당했을 거예요.",
+    "겁재": "경쟁이 붙고, 내 것을 지키려고 고집이 세졌을 거예요.",
+    "식신": "하고 싶은 게 많아지고 재능이 드러났을 거예요.",
+    "상관": "반항심이 커지고 정해진 방식에 반기를 들었을 거예요.",
+    "편재": "활동 범위가 넓어지고 바깥일에 관심이 많았을 거예요.",
+    "정재": "현실적인 책임과 돈 관리를 처음 배웠을 거예요.",
+    "편관": "압박이나 스트레스가 큰 일을 겪었을 거예요.",
+    "정관": "규칙을 잘 지켜 칭찬받거나 책임 있는 역할을 맡았을 거예요.",
+    "편인": "생각이 많아지고 혼자 있는 시간이 늘었을 거예요.",
+    "정인": "좋은 선생님이나 어른의 도움을 받았을 거예요.",
+}
+GOD_FUTURE = {
+    "비견": "같은 길을 가는 동료가 생기고 함께 커 가는 시기예요.",
+    "겁재": "경쟁 속에서 내 몫을 지키며 독립하는 시기예요.",
+    "식신": "하고 싶은 걸 마음껏 하며 재능이 결과로 바뀌는 시기예요.",
+    "상관": "틀을 깨고 방향을 바꾸는 시기예요. 말조심만 하면 큰 도약이 돼요.",
+    "편재": "활동 범위가 넓어지고 큰 기회와 돈이 오가는 시기예요.",
+    "정재": "꾸준한 노력이 안정적인 수입과 자산으로 쌓이는 시기예요.",
+    "편관": "책임과 압박이 커지지만 버티면 크게 단단해지는 시기예요.",
+    "정관": "자리와 직함, 공식적인 인정이 따라오는 시기예요.",
+    "편인": "생각이 깊어지고 나만의 분야를 파고드는 시기예요.",
+    "정인": "배움과 도움이 들어오고 마음이 편안해지는 시기예요.",
+}
+TAG_PAST = {
+    "변동": "이사, 전학, 가족의 변화처럼 환경이 크게 바뀌었을 가능성이 커요.",
+    "이동": "새로운 곳으로 옮기거나 멀리 다녀올 일이 있었을 거예요.",
+    "도화": "인기가 많았거나 마음이 설레는 일이 있었을 거예요.",
+    "인연": "오래 기억에 남는 사람을 만났을 거예요.",
+}
+YONGSIN_RULE = {
+    "비겁": "혼자 버티지 말고 내 편을 만드세요. 사람이 곧 운이에요.",
+    "식상": "안에 있는 걸 밖으로 꺼내 보이세요. 보여줄수록 운이 열려요.",
+    "재성": "결과와 실속을 챙기세요. 계획을 숫자로 적으면 운이 붙어요.",
+    "관성": "스스로 규칙과 마감을 정하세요. 틀이 있을 때 더 크게 자라요.",
+    "인성": "배우고 쉬는 시간을 지키세요. 채워야 꺼낼 수 있어요.",
+}
+
+
+def _stage(age: int) -> str:
+    return ("아기 때" if age <= 4 else "어린 시절" if age <= 7 else "초등학생 때" if age <= 13
+            else "중고등학생 때" if age <= 19 else f"{age // 10 * 10}대")
+
+
+def _past_items(years, lo, hi, limit):
+    picks = []
+    for y in years:
+        if not lo <= y.age <= hi:
+            continue
+        tags = [t for t in ("변동", "이동", "도화", "인연") if t in y.tags
+                and not (t == "도화" and y.age < 12) and not (t == "인연" and y.age < 17)]
+        if tags:
+            picks.append((y, tags))
+    return [{"when": f"{y.year} · {y.age}세", "title": f"{y.hanja} · {_stage(y.age)}",
+             "body": f"{GOD_PAST[y.stem_god]} {TAG_PAST[tags[0]]}", "now": False}
+            for y, tags in picks[:limit]]
+
 def _sec(key, hanja, nav, title, sub="", **kw) -> dict:
     return {"key": key, "hanja": hanja, "nav": nav, "title": title, "sub": sub, **kw}
 
@@ -86,6 +144,27 @@ def draft_reading(chart: Chart, a: Analysis, name: str, today: date | None = Non
             f"가장 필요한 기운(용신)은 {ys}({EL_KO[ys]})예요.",
         ],
         evidence=[dm, strength, f"용신 {ys}"]))
+
+
+    # 지나온 길: 나이별로 있었을 법한 일들
+    age_now = today.year - a.birth_year + 1
+    first = a.daeun_years[0]
+    spans = [(1, 13, "어린 시절"), (14, age_now - 1, "10대부터 지금까지")] if age_now >= 18 else [(1, age_now - 1, "태어나서 지금까지")]
+    for n, (lo, hi, label) in enumerate(spans):
+        items = _past_items(a.past_years, lo, hi, 6)
+        if n == 0:
+            items.insert(0, {"when": f"{a.birth_year}–{first['from'] - 1}", "title": f"대운 전 · 1~{first['start_age'] - 1}세",
+                             "body": f"타고난 기운 그대로 자란 시기. {DAY_MASTER[chart.day_master][2]}", "now": False})
+        for d in a.daeun_years:
+            if lo <= d["start_age"] <= hi and d["from"] < today.year:
+                items.append({"when": f"{d['from']} · {d['start_age']}세", "title": f"대운 {d['hanja']} 시작",
+                              "body": f"10년의 흐름이 바뀌었어요. 앞 5년엔 {GOD_PAST[d['stem_god']]} 뒤 5년엔 {GOD_PAST[d['branch_god']]}",
+                              "now": False})
+        items.sort(key=lambda x: x["when"])
+        sections.append(_sec(f"past{n + 1}", "往", "지나온 길", f"지나온 길{' ' + '①②'[n] if len(spans) > 1 else ''}", label,
+            lead="지금까지 이렇게 살아왔을 거예요. 맞는지 하나씩 맞춰 보세요.",
+            timeline=items[:7],
+            evidence=[f"대운 {d['hanja']} ({d['from']}–)" for d in a.daeun_years if d["from"] <= today.year] + ["연운 " + str(a.birth_year) + "–" + str(today.year - 1)]))
 
     sections.append(_sec("persona", "性", "성격", "어떤 사람인가", f"{role}",
         lead=good, paras=[bad],
@@ -167,6 +246,18 @@ def draft_reading(chart: Chart, a: Analysis, name: str, today: date | None = Non
         stats=[{"label": "행운의 색", "value": color}, {"label": "방향", "value": direction},
                {"label": "숫자", "value": num}, {"label": "계절", "value": season}],
         lead=habit, evidence=[f"용신 {ys}"]))
+
+
+    cur = next((d for d in a.daeun_years if d["from"] <= today.year <= d["to"]), a.daeun_years[0])
+    nxt = [d for d in a.daeun_years if d["from"] > today.year][:2]
+    sections.append(_sec("future", "來", "앞으로", "앞으로 어떻게 살까", "시기별 숙제",
+        lead=YONGSIN_RULE[a.yongsin_group],
+        cards=[{"title": f"지금 ~ {cur['to']}", "badge": cur["hanja"],
+                "body": f"{cur['stem_god']}·{cur['branch_god']} 대운의 한가운데. {habit}을 붙이면 이 10년이 훨씬 수월해져요."}]
+              + [{"title": f"{d['from']} ~ {d['to']}", "badge": d["hanja"],
+                  "body": f"{d['start_age']}세부터는 {GOD_FUTURE[d['stem_god']]} 후반엔 {GOD_FUTURE[d['branch_god']]}"}
+                 for d in nxt],
+        evidence=[f"용신 {ys}", f"현재 대운 {cur['hanja']}"] + [f"다음 대운 {d['hanja']}" for d in nxt]))
 
     sections.append(_sec("proof", "證", "근거", "이 풀이가 다른 이유", "그냥 LLM 사주와 무엇이 다른가",
         cards=[

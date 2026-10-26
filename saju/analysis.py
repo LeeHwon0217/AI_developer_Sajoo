@@ -84,6 +84,7 @@ class Analysis:
     daeun_years: list[dict]
     years: list[YearLuck]
     birth_year: int
+    past_years: list[YearLuck] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -155,8 +156,7 @@ def analyze(chart: Chart, today: date | None = None, span: int = 15) -> Analysis
 
     dohwa = {SHINSAL[_triad(b)][0] for b in {branches["년주"], day_branch}}
     yeokma = {SHINSAL[_triad(b)][1] for b in {branches["년주"], day_branch}}
-    years = []
-    for y in range(today.year, today.year + span):
+    def year_luck(y: int) -> YearLuck:
         p = Pillar((y - 4) % 10, (y - 4) % 12)
         sg = ten_god(ds, p.stem)
         bg = ten_god(ds, BRANCH_MAIN_STEM[p.branch])
@@ -178,7 +178,10 @@ def analyze(chart: Chart, today: date | None = None, span: int = 15) -> Analysis
             tags.append("도화")
         if "충" in rel or "형" in rel:
             tags.append("변동")
-        years.append(YearLuck(y, y - birth_year + 1, p.hanja, sg, bg, rel, tags))
+        return YearLuck(y, y - birth_year + 1, p.hanja, sg, bg, rel, tags)
+
+    years = [year_luck(y) for y in range(today.year, today.year + span)]
+    past_years = [year_luck(y) for y in range(birth_year, today.year)]
 
     return Analysis(
         strong=strong, support=support, total=total,
@@ -189,5 +192,5 @@ def analyze(chart: Chart, today: date | None = None, span: int = 15) -> Analysis
         child_star=child_star, child_star_count=g[child_star],
         child_palace_gods=[hour.stem_god, hour.branch_god] if hour else [],
         shinsal=shinsal, chart_relations=rels,
-        daeun_years=daeun_years, years=years, birth_year=birth_year,
+        daeun_years=daeun_years, years=years, birth_year=birth_year, past_years=past_years,
     )

@@ -186,7 +186,7 @@ def render_index(site: dict) -> str:
               if apply else '<p class="meta">신청 링크 준비 중이에요.</p>')
     seal = '<span class="seal-char">命</span><span class="seal-sub">四柱</span>'
     secs = [
-        {"key": "what", "hanja": "觀", "nav": "소개", "title": "이렇게 봐드려요", "sub": "17장의 풀이",
+        {"key": "what", "hanja": "觀", "nav": "소개", "title": "이렇게 봐드려요", "sub": "20장의 풀이",
          "cards": [
              {"title": "성격 · 겉과 속", "body": "어떤 사람인지, 남들이 보는 나와 진짜 나"},
              {"title": "직업 · 재물", "body": "잘 맞는 직군과 적합도, 재물 그릇과 피크 시기"},
