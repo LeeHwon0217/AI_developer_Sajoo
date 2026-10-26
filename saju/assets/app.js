@@ -93,26 +93,27 @@
     go(idx + dir);
   }, { passive: false });
 
+  // 터치: 손가락을 댈 때 이미 안쪽 스크롤 끝에 닿아 있었는지로 판단한다.
+  // (아이폰은 끝에서 고무줄처럼 튕겨 scrollTop 이 잠깐 변하므로, 끝난 뒤 위치로 판단하면 영영 안 넘어간다)
   let y0 = null;
-  let innerTop0 = 0;
+  let atEnd = { down: true, up: true };
   addEventListener("touchstart", (e) => {
     y0 = e.touches[0].clientY;
-    innerTop0 = inner()?.scrollTop || 0;
+    const el = inner();
+    atEnd = { down: !canScroll(el, 1), up: !canScroll(el, -1) };
   }, { passive: true });
   addEventListener("touchmove", (e) => {
     const el = e.target.closest(".slide-inner");
-    if (!el || el.scrollHeight <= el.clientHeight + 2) e.preventDefault();
+    if (!el || !(canScroll(el, 1) || canScroll(el, -1))) e.preventDefault();
   }, { passive: false });
+  addEventListener("touchcancel", () => { y0 = null; }, { passive: true });
   addEventListener("touchend", (e) => {
     if (y0 === null) return;
     const dy = y0 - e.changedTouches[0].clientY;
     y0 = null;
-    if (Math.abs(dy) < 50 || performance.now() - lastMove < LOCK) return;
+    if (Math.abs(dy) < 40 || performance.now() - lastMove < LOCK) return;
     const dir = Math.sign(dy);
-    const el = inner();
-    // 이번 터치로 안쪽이 스크롤됐거나, 아직 더 스크롤할 게 있으면 장을 넘기지 않는다
-    if (el && (Math.abs(el.scrollTop - innerTop0) > 2 || canScroll(el, dir))) return;
-    go(idx + dir);
+    if (dir > 0 ? atEnd.down : atEnd.up) go(idx + dir);
   }, { passive: true });
 
   addEventListener("keydown", (e) => {
