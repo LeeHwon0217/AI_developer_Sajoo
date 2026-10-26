@@ -21,6 +21,15 @@
   const hint = Object.assign(document.createElement("div"), { className: "nav-hint", textContent: "휠 · 스와이프 · ↑↓ 로 한 장씩" });
   document.body.append(dots, counter, bar, hint);
 
+  // 슬라이드 높이 = 지금 실제로 보이는 화면 높이. 모바일 주소창이 접히고 펴져도 어긋나지 않게.
+  const setHeight = () => {
+    const h = (window.visualViewport?.height || innerHeight);
+    document.documentElement.style.setProperty("--h", `${Math.round(h)}px`);
+  };
+  setHeight();
+  addEventListener("resize", setHeight);
+  window.visualViewport?.addEventListener("resize", setHeight);
+
   // 문서 자체는 절대 스크롤되지 않게 한다 (스크롤 복원, 포커스 이동 등으로 밀리는 것 방지)
   history.scrollRestoration = "manual";
   document.documentElement.style.overflow = "hidden";
@@ -35,9 +44,17 @@
   function go(n) {
     n = Math.max(0, Math.min(slides.length - 1, n));
     if (n === idx) return;
-    if (idx >= 0) slides[idx].classList.remove("active");
+    if (idx >= 0) {
+      const prev = slides[idx];
+      prev.classList.remove("active");
+      prev.classList.add("leaving");
+      clearTimeout(prev._leave);
+      prev._leave = setTimeout(() => prev.classList.remove("leaving"), 1100);
+    }
     idx = n;
     const s = slides[idx];
+    clearTimeout(s._leave);
+    s.classList.remove("leaving");
     s.classList.add("active");
     s.querySelector(".slide-inner")?.scrollTo(0, 0);
     track.style.setProperty("--idx", idx);
@@ -75,6 +92,10 @@
     y0 = e.touches[0].clientY;
     innerTop0 = inner()?.scrollTop || 0;
   }, { passive: true });
+  addEventListener("touchmove", (e) => {
+    const el = e.target.closest(".slide-inner");
+    if (!el || el.scrollHeight <= el.clientHeight + 2) e.preventDefault();
+  }, { passive: false });
   addEventListener("touchend", (e) => {
     if (y0 === null) return;
     const dy = y0 - e.changedTouches[0].clientY;

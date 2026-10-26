@@ -43,7 +43,7 @@ body {
 a { color: var(--red); }
 
 /* ───────────────────────── 인트로 */
-.hero { position: relative; height: 100svh; overflow: hidden; --p: 0; }
+.hero { position: relative; height: var(--h, 100svh); overflow: hidden; --p: 0; }
 .layers, .layers > * { position: absolute; }
 .layers { inset: 0; }
 .scene { inset: 0; width: 100%; height: 100%; translate: 0 calc(var(--p) * 90px); }
@@ -155,19 +155,19 @@ a { color: var(--red); }
 
 /* ───────────────────────── 슬라이드 덱: 한 번에 한 장 */
 html, body { height: 100%; }
-body.deck { overflow: hidden; overscroll-behavior: none; }
+body.deck { position: fixed; inset: 0; width: 100%; overflow: hidden; overscroll-behavior: none; }
 .track {
-  height: 100svh;
-  transform: translate3d(0, calc(var(--idx, 0) * -100svh), 0);
-  transition: transform 1s cubic-bezier(.77, 0, .18, 1);
+  height: var(--h, 100svh);
+  transform: translate3d(0, calc(var(--idx, 0) * -1 * var(--h, 100svh)), 0);
+  transition: transform 1.1s cubic-bezier(.77, 0, .18, 1);
   will-change: transform;
 }
-.slide { position: relative; height: 100svh; overflow: hidden; display: flex; }
+.slide { position: relative; height: var(--h, 100svh); overflow: hidden; display: flex; }
 .slide:not(.hero):nth-child(even) { background: rgba(255, 255, 255, .28); }
 .slide:not(.hero)::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--dancheong); z-index: 2; }
 .slide-inner {
   position: relative; z-index: 1; width: min(100%, 920px); margin: auto;
-  max-height: 100svh; overflow-y: auto; overscroll-behavior: contain;
+  max-height: var(--h, 100svh); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
   padding: 64px 24px 72px; scrollbar-width: thin; scrollbar-color: var(--paper-line) transparent;
 }
 .slide > .wm {
@@ -184,6 +184,10 @@ body.deck { overflow: hidden; overscroll-behavior: none; }
 .slide[data-anim="slide"].active .a { animation-name: a-slide; }
 .slide[data-anim="flip"].active .a { animation-name: a-flip; }
 .slide.active .s-head { animation-name: a-rise; }
+/* 떠나는 장: 내용이 한 번에 꺼지지 않고 천천히 흐려진다 */
+.slide.leaving .a { opacity: 1; animation: a-out .9s ease both; animation-delay: calc(var(--d, 0) * .03s); }
+.slide.leaving > .wm { transition-duration: .9s; }
+@keyframes a-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-18px); } }
 @keyframes a-rise { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
 @keyframes a-stamp { 0% { opacity: 0; transform: scale(1.8) rotate(-8deg); } 70% { opacity: 1; transform: scale(.96); } 100% { opacity: 1; transform: none; } }
 @keyframes a-slide { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: none; } }
