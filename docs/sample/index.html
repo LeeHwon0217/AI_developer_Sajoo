@@ -7,154 +7,323 @@
 <meta name="description" content="샘플개발자 님은 큰 강과 바다의 기운을 가진 분산 시스템 엔지니어">
 <meta property="og:title" content="샘플개발자 님의 개발자 사주">
 <meta property="og:description" content="샘플개발자 님은 큰 강과 바다의 기운을 가진 분산 시스템 엔지니어">
+<meta name="theme-color" content="#f3e8d0">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@500;900&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/app.js" defer></script>
 </head>
 <body>
+<div class="petals" aria-hidden="true"></div>
+<header class="hero">
+  <div class="layers"><svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-peak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f8f7f"/><stop offset="1" stop-color="#1f4f4a"/>
+    </linearGradient>
+    <linearGradient id="g-peak2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5ea48d"/><stop offset="1" stop-color="#2b6559"/>
+    </linearGradient>
+    <pattern id="p-wave" width="60" height="30" patternUnits="userSpaceOnUse">
+      <rect width="60" height="30" fill="#1f4e79"/>
+      <g fill="none" stroke="#e9eef2" stroke-width="2.2">
+        <circle cx="30" cy="30" r="27"/><circle cx="30" cy="30" r="18"/><circle cx="30" cy="30" r="9"/>
+        <circle cx="0" cy="15" r="27"/><circle cx="0" cy="15" r="18"/><circle cx="0" cy="15" r="9"/>
+        <circle cx="60" cy="15" r="27"/><circle cx="60" cy="15" r="18"/><circle cx="60" cy="15" r="9"/>
+      </g>
+    </pattern>
+  </defs>
 
-<main class="wrap">
-  <header class="hero">
-    <p class="prompt">$ saju analyze --user "샘플개발자"</p>
-    <h1>샘플개발자 님은 큰 강과 바다의 기운을 가진 분산 시스템 엔지니어</h1>
+  <g class="sun"><circle cx="1260" cy="210" r="92" fill="#d9381e"/><circle cx="1260" cy="210" r="112" fill="none" stroke="#d9381e" stroke-opacity=".25" stroke-width="10"/></g>
+  <g class="moon"><circle cx="340" cy="190" r="70" fill="#fbf7ec" stroke="#c9b98f" stroke-width="4"/></g>
+
+  <g class="peaks">
+    <path class="pk pk1" d="M-80 900 C -20 760 70 650 150 640 C 230 650 320 760 380 900 Z" fill="url(#g-peak2)"/>
+    <path class="pk pk5" d="M1220 900 C 1280 760 1370 650 1450 640 C 1530 650 1620 760 1680 900 Z" fill="url(#g-peak2)"/>
+    <path class="pk pk2" d="M230 900 C 290 700 380 545 460 535 C 540 545 630 700 690 900 Z" fill="url(#g-peak)"/>
+    <path class="pk pk4" d="M910 900 C 970 700 1060 545 1140 535 C 1220 545 1310 700 1370 900 Z" fill="url(#g-peak)"/>
+    <path class="pk pk3" d="M560 900 C 620 620 710 370 800 355 C 890 370 980 620 1040 900 Z" fill="url(#g-peak)"/>
+    <g fill="none" stroke="#e8f0da" stroke-opacity=".45" stroke-width="5" stroke-linecap="round">
+      <path class="pk pk3" d="M800 380 C 770 470 740 560 715 700"/><path class="pk pk3" d="M800 380 C 830 470 860 560 885 700"/>
+      <path class="pk pk2" d="M460 560 C 440 620 420 690 405 780"/><path class="pk pk4" d="M1140 560 C 1160 620 1180 690 1195 780"/>
+    </g>
+  </g>
+
+  <g class="waves"><rect x="-120" y="805" width="1840" height="100" fill="url(#p-wave)"/></g>
+</svg><svg class="cloud c1" viewBox="-10 -30 220 90" aria-hidden="true">
+  <path d="M0 40 C -12 8 30 -14 52 8 C 62 -24 112 -24 122 8 C 142 -8 178 10 166 40 Z" fill="#fffaf0" stroke="#b99a6b" stroke-width="3"/>
+  <path d="M166 40 c 26 0 36 -26 15 -31 c -11 -2 -15 9 -6 11" fill="none" stroke="#b99a6b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 40 c -2 -12 10 -18 18 -10" fill="none" stroke="#b99a6b" stroke-width="2.5" stroke-linecap="round"/>
+</svg><svg class="cloud c2" viewBox="-10 -30 220 90" aria-hidden="true">
+  <path d="M0 40 C -12 8 30 -14 52 8 C 62 -24 112 -24 122 8 C 142 -8 178 10 166 40 Z" fill="#fffaf0" stroke="#b99a6b" stroke-width="3"/>
+  <path d="M166 40 c 26 0 36 -26 15 -31 c -11 -2 -15 9 -6 11" fill="none" stroke="#b99a6b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 40 c -2 -12 10 -18 18 -10" fill="none" stroke="#b99a6b" stroke-width="2.5" stroke-linecap="round"/>
+</svg><svg class="cloud c3" viewBox="-10 -30 220 90" aria-hidden="true">
+  <path d="M0 40 C -12 8 30 -14 52 8 C 62 -24 112 -24 122 8 C 142 -8 178 10 166 40 Z" fill="#fffaf0" stroke="#b99a6b" stroke-width="3"/>
+  <path d="M166 40 c 26 0 36 -26 15 -31 c -11 -2 -15 9 -6 11" fill="none" stroke="#b99a6b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 40 c -2 -12 10 -18 18 -10" fill="none" stroke="#b99a6b" stroke-width="2.5" stroke-linecap="round"/>
+</svg><svg class="cloud c4" viewBox="-10 -30 220 90" aria-hidden="true">
+  <path d="M0 40 C -12 8 30 -14 52 8 C 62 -24 112 -24 122 8 C 142 -8 178 10 166 40 Z" fill="#fffaf0" stroke="#b99a6b" stroke-width="3"/>
+  <path d="M166 40 c 26 0 36 -26 15 -31 c -11 -2 -15 9 -6 11" fill="none" stroke="#b99a6b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 40 c -2 -12 10 -18 18 -10" fill="none" stroke="#b99a6b" stroke-width="2.5" stroke-linecap="round"/>
+</svg><svg class="cloud c5" viewBox="-10 -30 220 90" aria-hidden="true">
+  <path d="M0 40 C -12 8 30 -14 52 8 C 62 -24 112 -24 122 8 C 142 -8 178 10 166 40 Z" fill="#fffaf0" stroke="#b99a6b" stroke-width="3"/>
+  <path d="M166 40 c 26 0 36 -26 15 -31 c -11 -2 -15 9 -6 11" fill="none" stroke="#b99a6b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 40 c -2 -12 10 -18 18 -10" fill="none" stroke="#b99a6b" stroke-width="2.5" stroke-linecap="round"/>
+</svg><svg class="crane cr1" viewBox="-210 -170 380 210" aria-hidden="true">
+  <g class="wing-far"><path d="M-10 0 C 0 50 50 85 110 95 C 80 60 60 30 30 5 Z" fill="#ece6d8" stroke="#3a3a3a" stroke-width="2"/></g>
+  <path d="M58 6 L150 14 M58 10 L148 22" stroke="#3a3a3a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="0" cy="0" rx="70" ry="22" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+  <path d="M52 -6 Q 88 -2 74 16 Q 62 10 48 9 Z" fill="#1d1d1d"/>
+  <path d="M-55 -8 C -90 -22 -112 -32 -150 -30" fill="none" stroke="#1d1d1d" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="-153" cy="-30" r="9" fill="#fffdf7" stroke="#3a3a3a" stroke-width="1.5"/>
+  <circle cx="-154" cy="-36" r="5" fill="#d9381e"/>
+  <path d="M-160 -30 L-204 -23 L-160 -25 Z" fill="#c9a44a"/>
+  <g class="wing-near">
+    <path d="M-25 -10 C -12 -90 58 -140 122 -152 C 92 -102 70 -60 38 -12 Z" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M122 -152 C 104 -128 92 -110 82 -96 L 74 -84 C 90 -112 104 -134 122 -152 Z M82 -96 C 96 -104 110 -126 122 -152" fill="#1d1d1d" stroke="#1d1d1d" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+</svg><svg class="crane cr2" viewBox="-210 -170 380 210" aria-hidden="true">
+  <g class="wing-far"><path d="M-10 0 C 0 50 50 85 110 95 C 80 60 60 30 30 5 Z" fill="#ece6d8" stroke="#3a3a3a" stroke-width="2"/></g>
+  <path d="M58 6 L150 14 M58 10 L148 22" stroke="#3a3a3a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="0" cy="0" rx="70" ry="22" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+  <path d="M52 -6 Q 88 -2 74 16 Q 62 10 48 9 Z" fill="#1d1d1d"/>
+  <path d="M-55 -8 C -90 -22 -112 -32 -150 -30" fill="none" stroke="#1d1d1d" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="-153" cy="-30" r="9" fill="#fffdf7" stroke="#3a3a3a" stroke-width="1.5"/>
+  <circle cx="-154" cy="-36" r="5" fill="#d9381e"/>
+  <path d="M-160 -30 L-204 -23 L-160 -25 Z" fill="#c9a44a"/>
+  <g class="wing-near">
+    <path d="M-25 -10 C -12 -90 58 -140 122 -152 C 92 -102 70 -60 38 -12 Z" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M122 -152 C 104 -128 92 -110 82 -96 L 74 -84 C 90 -112 104 -134 122 -152 Z M82 -96 C 96 -104 110 -126 122 -152" fill="#1d1d1d" stroke="#1d1d1d" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+</svg><svg class="pine" viewBox="0 0 520 620" aria-hidden="true">
+  <path d="M90 640 C 120 520 60 420 140 320 C 190 255 175 205 230 160" fill="none" stroke="#5a3d24" stroke-width="34" stroke-linecap="round"/>
+  <path d="M135 330 C 220 300 300 300 400 255" fill="none" stroke="#5a3d24" stroke-width="15" stroke-linecap="round"/>
+  <path d="M190 230 C 250 210 300 175 340 130" fill="none" stroke="#5a3d24" stroke-width="11" stroke-linecap="round"/>
+  <g fill="none" stroke="#7a5836" stroke-width="3" stroke-linecap="round">
+    <path d="M100 560 q 14 -8 22 0"/><path d="M95 480 q 14 -8 22 0"/><path d="M118 400 q 14 -8 22 0"/>
+  </g>
+  <g class="needles">
+    <ellipse cx="410" cy="245" rx="92" ry="30" fill="#2e5b3a"/><ellipse cx="410" cy="236" rx="78" ry="18" fill="#3f7a4d"/>
+    <ellipse cx="240" cy="150" rx="90" ry="30" fill="#2e5b3a"/><ellipse cx="240" cy="141" rx="76" ry="18" fill="#3f7a4d"/>
+    <ellipse cx="350" cy="120" rx="70" ry="24" fill="#2e5b3a"/><ellipse cx="350" cy="113" rx="58" ry="14" fill="#3f7a4d"/>
+    <ellipse cx="120" cy="300" rx="80" ry="26" fill="#2e5b3a"/><ellipse cx="120" cy="292" rx="66" ry="15" fill="#3f7a4d"/>
+  </g>
+  <g class="magpie">
+    <path d="M300 262 L 252 300 L 262 302 L 306 270 Z" fill="#1d2433"/>
+    <ellipse cx="320" cy="252" rx="30" ry="18" fill="#1d2433"/>
+    <ellipse cx="324" cy="258" rx="18" ry="10" fill="#fbf7ec"/>
+    <path d="M300 246 q 20 -12 38 -4 q -18 4 -30 14 Z" fill="#2f5d8a"/>
+    <circle cx="350" cy="238" r="13" fill="#1d2433"/>
+    <circle cx="354" cy="235" r="3" fill="#fbf7ec"/>
+    <path d="M362 238 L 376 241 L 362 243 Z" fill="#1d2433"/>
+    <path d="M316 268 l -3 12 M326 268 l 2 12" stroke="#1d2433" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg><svg class="tiger" viewBox="0 0 400 380" aria-hidden="true">
+  <g class="tiger-body">
+    <circle cx="95" cy="80" r="44" fill="#e8892b" stroke="#2b1a0c" stroke-width="5"/>
+    <circle cx="95" cy="84" r="24" fill="#f6dcb8"/>
+    <circle cx="305" cy="80" r="44" fill="#e8892b" stroke="#2b1a0c" stroke-width="5"/>
+    <circle cx="305" cy="84" r="24" fill="#f6dcb8"/>
+    <ellipse cx="200" cy="215" rx="175" ry="160" fill="#e8892b" stroke="#2b1a0c" stroke-width="6"/>
+    <g fill="none" stroke="#2b1a0c" stroke-width="12" stroke-linecap="round">
+      <path d="M200 62 v 46"/><path d="M164 70 q 12 28 0 52"/><path d="M236 70 q -12 28 0 52"/>
+      <path d="M30 180 q 40 4 58 30"/><path d="M28 225 q 42 -2 54 24"/><path d="M40 270 q 36 -6 50 14"/>
+      <path d="M370 180 q -40 4 -58 30"/><path d="M372 225 q -42 -2 -54 24"/><path d="M360 270 q -36 -6 -50 14"/>
+    </g>
+    <ellipse cx="152" cy="280" rx="66" ry="50" fill="#fbf3e4"/>
+    <ellipse cx="248" cy="280" rx="66" ry="50" fill="#fbf3e4"/>
+    <g class="eyes">
+      <circle cx="135" cy="185" r="38" fill="#f5d33a" stroke="#2b1a0c" stroke-width="6"/>
+      <circle cx="265" cy="185" r="38" fill="#f5d33a" stroke="#2b1a0c" stroke-width="6"/>
+      <circle class="pupil" cx="140" cy="188" r="17" fill="#2b1a0c"/>
+      <circle class="pupil" cx="260" cy="188" r="17" fill="#2b1a0c"/>
+      <circle cx="146" cy="181" r="6" fill="#fff"/><circle cx="266" cy="181" r="6" fill="#fff"/>
+    </g>
+    <path d="M110 140 q 25 -16 50 -4 M240 136 q 25 -12 50 4" fill="none" stroke="#fbf3e4" stroke-width="9" stroke-linecap="round"/>
+    <path d="M174 248 Q 200 232 226 248 Q 214 274 200 276 Q 186 274 174 248 Z" fill="#c2453a" stroke="#2b1a0c" stroke-width="4"/>
+    <path d="M200 276 q 0 22 -32 28 M200 276 q 0 22 32 28" fill="none" stroke="#2b1a0c" stroke-width="5" stroke-linecap="round"/>
+    <g stroke="#2b1a0c" stroke-width="3" stroke-linecap="round">
+      <path d="M120 280 l -70 -10"/><path d="M120 292 l -72 8"/><path d="M280 280 l 70 -10"/><path d="M280 292 l 72 8"/>
+    </g>
+    <g fill="#2b1a0c"><circle cx="140" cy="270" r="3.5"/><circle cx="130" cy="285" r="3.5"/><circle cx="260" cy="270" r="3.5"/><circle cx="270" cy="285" r="3.5"/></g>
+  </g>
+</svg></div>
+  <div class="hero-text">
+    <p class="kicker">AI 개발자가 봐주는 사주</p>
+    <h1 class="name"><span class="ink">샘플개발자</span><span class="name-sub">님의 사주팔자</span></h1>
+    <p class="headline">샘플개발자 님은 큰 강과 바다의 기운을 가진 분산 시스템 엔지니어</p>
     <p class="meta">1995-03-02 14:30 · 남 · 보정 지방시 1995-03-02 13:58</p>
-    
-  </header>
-
+  </div>
+  <div class="seal" aria-hidden="true"><span class="seal-char">壬</span><span class="seal-sub">日干</span></div>
+  <a class="scroll-hint" href="#start">스크롤을 내려 운명을 열어보세요<span>↓</span></a>
+</header>
+<main class="paper" id="start">
+  
   <section>
-    <h2><span class="num">01</span> 시스템 스펙 <small>사주 원국</small></h2>
-    <div class="pillars"><div class="pillar">
+    <h2 class="sec-title reveal"><span class="hj">壹</span><span class="t">시스템 스펙</span><small>사주 원국 여덟 글자</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
+    <div class="pillars"><div class="pillar stamp" style="--i:0">
   <div class="plabel">시주</div>
   <div class="pgod">정재</div>
-  <div class="char fire">丁<small>정 · 화</small></div>
-  <div class="char earth">未<small>미 · 토</small></div>
+  <div class="char fire">丁</div>
+  <div class="ko">정 · 화</div>
+  <div class="char earth">未</div>
+  <div class="ko">미 · 토</div>
   <div class="pgod">정관</div>
-</div><div class="pillar">
+</div><div class="pillar stamp me" style="--i:1">
   <div class="plabel">일주</div>
-  <div class="pgod">일간 (나)</div>
-  <div class="char water">壬<small>임 · 수</small></div>
-  <div class="char earth">辰<small>진 · 토</small></div>
+  <div class="pgod">나 (일간)</div>
+  <div class="char water">壬</div>
+  <div class="ko">임 · 수</div>
+  <div class="char earth">辰</div>
+  <div class="ko">진 · 토</div>
   <div class="pgod">편관</div>
-</div><div class="pillar">
+</div><div class="pillar stamp" style="--i:2">
   <div class="plabel">월주</div>
   <div class="pgod">편관</div>
-  <div class="char earth">戊<small>무 · 토</small></div>
-  <div class="char wood">寅<small>인 · 목</small></div>
+  <div class="char earth">戊</div>
+  <div class="ko">무 · 토</div>
+  <div class="char wood">寅</div>
+  <div class="ko">인 · 목</div>
   <div class="pgod">식신</div>
-</div><div class="pillar">
+</div><div class="pillar stamp" style="--i:3">
   <div class="plabel">년주</div>
   <div class="pgod">상관</div>
-  <div class="char wood">乙<small>을 · 목</small></div>
-  <div class="char water">亥<small>해 · 수</small></div>
+  <div class="char wood">乙</div>
+  <div class="ko">을 · 목</div>
+  <div class="char water">亥</div>
+  <div class="ko">해 · 수</div>
   <div class="pgod">비견</div>
 </div></div>
-    <p class="lead">일간 壬(양水). 모든 걸 받아들여 흘려보내는 큰 물. 스케일, 메시지 큐, 이벤트 스트림처럼 크고 흐르는 것에 강합니다. 한 군데 고여 있으면 답답해해요.</p>
+    <p class="lead reveal">일간 壬(양水). 모든 걸 받아들여 흘려보내는 큰 물. 스케일, 메시지 큐, 이벤트 스트림처럼 크고 흐르는 것에 강합니다. 한 군데 고여 있으면 답답해해요.</p>
   </section>
 
   <section>
-    <h2><span class="num">02</span> 리소스 모니터 <small>오행 분포</small></h2>
-    <div class="bars"><div class="bar-row">
-  <span class="bar-name wood-text">木 목</span>
-  <span class="bar-track"><span class="bar-fill wood" style="width:25%"></span></span>
-  <span class="bar-val">2 <em class="st-ok">OK</em></span>
+    <h2 class="sec-title reveal"><span class="hj">貳</span><span class="t">리소스 모니터</span><small>오행 분포</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
+    <div class="panel elements"><div class="el-row reveal" style="--i:0; --v:25%">
+  <span class="el-hj wood">木</span>
+  <span class="el-name">목 <small>성장 · 학습</small></span>
+  <span class="el-track"><span class="el-fill wood-bg"></span></span>
+  <span class="el-val">2<em class="st-ok">적정</em></span>
 </div>
-<div class="bar-row">
-  <span class="bar-name fire-text">火 화</span>
-  <span class="bar-track"><span class="bar-fill fire" style="width:12%"></span></span>
-  <span class="bar-val">1 <em class="st-ok">OK</em></span>
+<div class="el-row reveal" style="--i:1; --v:12%">
+  <span class="el-hj fire">火</span>
+  <span class="el-name">화 <small>표현 · 출시</small></span>
+  <span class="el-track"><span class="el-fill fire-bg"></span></span>
+  <span class="el-val">1<em class="st-ok">적정</em></span>
 </div>
-<div class="bar-row">
-  <span class="bar-name earth-text">土 토</span>
-  <span class="bar-track"><span class="bar-fill earth" style="width:38%"></span></span>
-  <span class="bar-val">3 <em class="st-high">HIGH</em></span>
+<div class="el-row reveal" style="--i:2; --v:38%">
+  <span class="el-hj earth">土</span>
+  <span class="el-name">토 <small>안정 · 운영</small></span>
+  <span class="el-track"><span class="el-fill earth-bg"></span></span>
+  <span class="el-val">3<em class="st-high">과다</em></span>
 </div>
-<div class="bar-row">
-  <span class="bar-name metal-text">金 금</span>
-  <span class="bar-track"><span class="bar-fill metal" style="width:0%"></span></span>
-  <span class="bar-val">0 <em class="st-missing">MISSING</em></span>
+<div class="el-row reveal" style="--i:3; --v:0%">
+  <span class="el-hj metal">金</span>
+  <span class="el-name">금 <small>규칙 · 품질</small></span>
+  <span class="el-track"><span class="el-fill metal-bg"></span></span>
+  <span class="el-val">0<em class="st-missing">부족</em></span>
 </div>
-<div class="bar-row">
-  <span class="bar-name water-text">水 수</span>
-  <span class="bar-track"><span class="bar-fill water" style="width:25%"></span></span>
-  <span class="bar-val">2 <em class="st-ok">OK</em></span>
+<div class="el-row reveal" style="--i:4; --v:25%">
+  <span class="el-hj water">水</span>
+  <span class="el-name">수 <small>지식 · 리서치</small></span>
+  <span class="el-track"><span class="el-fill water-bg"></span></span>
+  <span class="el-val">2<em class="st-ok">적정</em></span>
 </div></div>
   </section>
 
   <section>
-    <h2><span class="num">03</span> 워크 스타일 <small>십성</small></h2>
-    <div class="card">
+    <h2 class="sec-title reveal"><span class="hj">參</span><span class="t">워크 스타일</span><small>십성</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
+    <div class="panel style-card reveal">
+      <span class="wm big">官星</span>
       <h3>시니어 · 매니지먼트형</h3>
       <p>프로세스와 책임을 중시하는 조직형. 큰 조직에서 신뢰를 얻고 리더 역할을 맡기 쉽습니다. 스트레스를 혼자 지는 경향은 주의.</p>
     </div>
   </section>
 
   <section>
-    <h2><span class="num">04</span> 린트 결과 <small>강점 · 경고 · 패치</small></h2>
+    <h2 class="sec-title reveal"><span class="hj">肆</span><span class="t">린트 결과</span><small>길 · 경 · 보</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
     <ul class="lint">
-      <li class="ok"><span class="mark">✓</span> 土 안정 · 운영: 버티고 유지보수하고 신뢰를 쌓는 힘</li>
-      <li class="warn"><span class="mark">⚠</span> 土 과다 — 익숙한 스택에 고여 있기 쉽습니다. 레거시를 지키는 것과 갇히는 건 다릅니다.</li>
-      <li class="patch"><span class="mark">+</span> 金 부족 — 테스트 커버리지와 린터를 친구로 두세요. 규칙을 바깥 도구에 맡기면 부족한 金이 보완됩니다.</li>
+      <li class="lint-item good reveal"><span class="mini-seal">吉</span><p>土 안정 · 운영: 버티고 유지보수하고 신뢰를 쌓는 힘</p></li>
+      <li class="lint-item warn reveal"><span class="mini-seal">警</span><p>土 과다 — 익숙한 스택에 고여 있기 쉽습니다. 레거시를 지키는 것과 갇히는 건 다릅니다.</p></li>
+      <li class="lint-item patch reveal"><span class="mini-seal">補</span><p>金 부족 — 테스트 커버리지와 린터를 친구로 두세요. 규칙을 바깥 도구에 맡기면 부족한 金이 보완됩니다.</p></li>
     </ul>
   </section>
 
   <section>
-    <h2><span class="num">05</span> 릴리즈 로드맵 <small>대운 · 역행, 9세 시작</small></h2>
-    <ol class="roadmap"><li>
-  <span class="tag">v9</span>
-  <span class="ganji">丁丑 (정축)</span>
-  <p>안정적인 보상의 시기. 연봉 협상, 꾸준한 수입, 자산 정리에 좋습니다.</p>
-</li>
-<li>
-  <span class="tag">v19</span>
-  <span class="ganji">丙子 (병자)</span>
-  <p>큰 기회가 들고 나는 시기. 프리랜스, 외주, 새로운 비즈니스 실험에 운이 붙어요.</p>
-</li>
-<li>
-  <span class="tag">v29</span>
-  <span class="ganji">乙亥 (을해)</span>
-  <p>기존 방식을 깨는 시기. 리팩터링, 이직, 새 스택 전환 욕구가 커져요. 말조심만 하면 혁신이 됩니다.</p>
-</li>
-<li>
-  <span class="tag">v39</span>
-  <span class="ganji">甲戌 (갑술)</span>
-  <p>꾸준히 만들어 내는 시기. 기능 출시가 즐겁고 결과물이 쌓입니다.</p>
-</li>
-<li>
-  <span class="tag">v49</span>
-  <span class="ganji">癸酉 (계유)</span>
-  <p>경쟁이 붙는 시기. 같은 자리를 노리는 사람이 생기니 성과를 기록으로 남겨두세요.</p>
-</li>
-<li>
-  <span class="tag">v59</span>
-  <span class="ganji">壬申 (임신)</span>
-  <p>동료와 나란히 달리는 시기. 페어 프로그래밍, 공동 창업, 사이드 프로젝트 팀업에 좋아요.</p>
-</li>
-<li>
-  <span class="tag">v69</span>
-  <span class="ganji">辛未 (신미)</span>
-  <p>배움과 지원의 시기. 좋은 멘토, 교육 기회, 문서가 나를 돕습니다.</p>
-</li>
-<li>
-  <span class="tag">v79</span>
-  <span class="ganji">庚午 (경오)</span>
-  <p>독특한 공부의 시기. 비주류 기술, 연구, 자격증처럼 남들이 안 하는 걸 파면 좋아요.</p>
+    <h2 class="sec-title reveal"><span class="hj">伍</span><span class="t">릴리즈 로드맵</span><small>대운 · 역행 · 9세 시작</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
+    <div class="scroll-roll reveal">
+      <div class="rod"></div>
+      <ol class="road"><li class="road-item reveal" style="--i:0">
+  <div class="road-age">9<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">丁丑 (정축)</span><span class="tag">v9</span></h3>
+    <p>안정적인 보상의 시기. 연봉 협상, 꾸준한 수입, 자산 정리에 좋습니다.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:1">
+  <div class="road-age">19<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">丙子 (병자)</span><span class="tag">v19</span></h3>
+    <p>큰 기회가 들고 나는 시기. 프리랜스, 외주, 새로운 비즈니스 실험에 운이 붙어요.</p>
+  </div>
+</li><li class="road-item reveal current" style="--i:2">
+  <div class="road-age">29<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">乙亥 (을해)</span><span class="tag">v29</span><span class="now">지금 여기</span></h3>
+    <p>기존 방식을 깨는 시기. 리팩터링, 이직, 새 스택 전환 욕구가 커져요. 말조심만 하면 혁신이 됩니다.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:3">
+  <div class="road-age">39<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">甲戌 (갑술)</span><span class="tag">v39</span></h3>
+    <p>꾸준히 만들어 내는 시기. 기능 출시가 즐겁고 결과물이 쌓입니다.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:4">
+  <div class="road-age">49<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">癸酉 (계유)</span><span class="tag">v49</span></h3>
+    <p>경쟁이 붙는 시기. 같은 자리를 노리는 사람이 생기니 성과를 기록으로 남겨두세요.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:5">
+  <div class="road-age">59<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">壬申 (임신)</span><span class="tag">v59</span></h3>
+    <p>동료와 나란히 달리는 시기. 페어 프로그래밍, 공동 창업, 사이드 프로젝트 팀업에 좋아요.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:6">
+  <div class="road-age">69<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">辛未 (신미)</span><span class="tag">v69</span></h3>
+    <p>배움과 지원의 시기. 좋은 멘토, 교육 기회, 문서가 나를 돕습니다.</p>
+  </div>
+</li><li class="road-item reveal" style="--i:7">
+  <div class="road-age">79<small>세</small></div>
+  <div class="road-body">
+    <h3><span class="ganji">庚午 (경오)</span><span class="tag">v79</span></h3>
+    <p>독특한 공부의 시기. 비주류 기술, 연구, 자격증처럼 남들이 안 하는 걸 파면 좋아요.</p>
+  </div>
 </li></ol>
+      <div class="rod"></div>
+    </div>
   </section>
 
   <section>
-    <h2><span class="num">06</span> 릴리즈 노트 <small>세운</small></h2>
-    <article class="release">
-  <h3><span class="tag">2026</span> 丙午 (병오)</h3>
+    <h2 class="sec-title reveal"><span class="hj">陸</span><span class="t">릴리즈 노트</span><small>세운</small><svg class="brush" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C 60 4 120 13 180 8 S 270 6 296 9" /></svg></h2>
+    <div class="releases"><article class="release flip reveal this-year" style="--i:0">
+  <span class="wm">丙午</span>
+  <h3><span class="year">2026</span> 丙午 (병오)</h3>
   <p>큰 기회가 들고 나는 시기. 프리랜스, 외주, 새로운 비즈니스 실험에 운이 붙어요. 하반기엔 정재의 기운: 안정적인 보상의 시기. 연봉 협상, 꾸준한 수입, 자산 정리에 좋습니다.</p>
 </article>
-<article class="release">
-  <h3><span class="tag">2027</span> 丁未 (정미)</h3>
+<article class="release flip reveal" style="--i:1">
+  <span class="wm">丁未</span>
+  <h3><span class="year">2027</span> 丁未 (정미)</h3>
   <p>안정적인 보상의 시기. 연봉 협상, 꾸준한 수입, 자산 정리에 좋습니다. 하반기엔 정관의 기운: 인정과 승진의 시기. 직급, 타이틀, 조직 내 역할이 커집니다.</p>
-</article>
+</article></div>
   </section>
 
-  <section class="closing">
+  <section class="closing reveal">
     <p>원국 리소스 8개 중 가장 많은 건 土. 사주는 스펙 문서일 뿐, 실제 동작은 당신이 커밋하는 코드가 결정합니다.</p>
   </section>
 
