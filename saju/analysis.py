@@ -113,12 +113,18 @@ def analyze(chart: Chart, today: date | None = None, span: int = 15) -> Analysis
     g = chart.groups
     if strong:
         cands = ["식상", "관성", "재성"]
+        yongsin = min(cands, key=lambda c: (g[c], cands.index(c)))
+        ys_el = group_element(day_el, yongsin)
+        hee_el = ELEMENTS[(ELEMENTS.index(ys_el) + 1) % 5]
+        gi_el = day_el
+    elif g["관성"] > g["재성"]:
+        # 관살이 나를 누르는 신약: 인성이 관의 힘을 받아 나를 살린다 (살인상생)
+        yongsin, ys_el = "인성", group_element(day_el, "인성")
+        hee_el, gi_el = day_el, group_element(day_el, "관성")
     else:
-        cands = ["비겁", "인성"] if g["재성"] + g["관성"] >= g["식상"] else ["인성", "비겁"]
-    yongsin = min(cands, key=lambda c: (g[c], cands.index(c)))
-    ys_el = group_element(day_el, yongsin)
-    hee_el = ELEMENTS[(ELEMENTS.index(ys_el) + 1) % 5] if strong else ELEMENTS[(ELEMENTS.index(ys_el) - 1) % 5]
-    gi_el = day_el if strong else group_element(day_el, "재성")
+        # 재성이 많은 신약: 나와 같은 기운(비겁)이 재를 감당하게 한다
+        yongsin, ys_el = "비겁", day_el
+        hee_el, gi_el = group_element(day_el, "인성"), group_element(day_el, "재성")
 
     hidden = {p.label: HIDDEN[p.hanja[1]] for p in chart.pillars}
     hidden_groups = {k: 0 for k in GROUPS}

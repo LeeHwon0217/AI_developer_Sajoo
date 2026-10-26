@@ -45,3 +45,15 @@ def test_years():
 def test_daeun_years():
     d = leehwon().daeun_years
     assert d[2]["hanja"] == "丁巳" and (d[2]["from"], d[2]["to"]) == (2023, 2032)
+
+
+def test_weak_with_heavy_officer_uses_resource():
+    # 정마나미: 亥卯未 관살국 신약 → 인성 火 (살인상생)
+    a = analyze(build_chart(datetime(2003, 3, 27, 6, 15), "F"), date(2026, 10, 26))
+    assert not a.strong and a.yongsin_group == "인성"
+    assert (a.yongsin_element, a.heesin_element, a.gisin_element) == ("火", "土", "木")
+
+
+def test_weak_with_heavy_wealth_uses_peer():
+    a = analyze(build_chart(datetime(2007, 9, 28, 9, 30), "F"), date(2026, 10, 26))
+    assert a.yongsin_group == "비겁" and a.yongsin_element == "木"
