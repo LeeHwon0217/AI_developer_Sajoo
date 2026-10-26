@@ -156,7 +156,8 @@ def render_reading(data: dict) -> str:
         notes.append("태어난 시간을 몰라 시주 없이 봤어요")
     if chart["near_term_boundary"]:
         notes.append("절입 시각과 가까워 월주가 달라질 수 있어요")
-    meta = (f'<p class="meta">{escape(chart["birth"])} · {gender}'
+    born = escape(chart["birth"]) + (f" (음력 {escape(data['lunar'])})" if data.get("lunar") else "")
+    meta = (f'<p class="meta">{born} · {gender}'
             + "".join(f" · ※ {escape(n)}" for n in notes) + "</p>")
     seal = f'<span class="seal-char">{chart["day_master"]}</span><span class="seal-sub">日干</span>'
 

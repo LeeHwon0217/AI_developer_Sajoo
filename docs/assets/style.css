@@ -159,7 +159,7 @@ body.deck { position: fixed; inset: 0; width: 100%; overflow: hidden; overscroll
 .track {
   height: var(--h, 100svh);
   transform: translate3d(0, calc(var(--idx, 0) * -1 * var(--h, 100svh)), 0);
-  transition: transform 1.1s cubic-bezier(.77, 0, .18, 1);
+  transition: transform .75s cubic-bezier(.65, 0, .25, 1);
   will-change: transform;
 }
 .slide { position: relative; height: var(--h, 100svh); overflow: hidden; display: flex; }
@@ -179,13 +179,13 @@ body.deck { position: fixed; inset: 0; width: 100%; overflow: hidden; overscroll
 
 /* 등장 효과: 슬라이드가 활성화될 때마다 다시 재생 */
 .slide:not(.hero) .a { opacity: 0; }
-.slide.active .a { animation: a-rise .8s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(.45s + var(--d, 0) * .09s); }
+.slide.active .a { animation: a-rise .8s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(.2s + var(--d, 0) * .07s); }
 .slide[data-anim="stamp"].active .a { animation-name: a-stamp; animation-timing-function: cubic-bezier(.3, 1.5, .6, 1); }
 .slide[data-anim="slide"].active .a { animation-name: a-slide; }
 .slide[data-anim="flip"].active .a { animation-name: a-flip; }
 .slide.active .s-head { animation-name: a-rise; }
 /* 떠나는 장: 내용이 한 번에 꺼지지 않고 천천히 흐려진다 */
-.slide.leaving .a { opacity: 1; animation: a-out .9s ease both; animation-delay: calc(var(--d, 0) * .03s); }
+.slide.leaving .a { opacity: 1; animation: a-out .7s ease both; animation-delay: calc(var(--d, 0) * .03s); }
 .slide.leaving > .wm { transition-duration: .9s; }
 @keyframes a-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-18px); } }
 @keyframes a-rise { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }

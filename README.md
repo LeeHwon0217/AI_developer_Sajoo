@@ -20,6 +20,7 @@ git add . && git commit -m "사주: 닉네임" && git push
 
 결과 주소: `https://<깃허브아이디>.github.io/<레포>/<slug>/` 를 신청자에게 보내준다.
 
+- 음력 생일이면 `--lunar` 를 붙인다 (윤달이면 `--leap` 도). 양력으로 바꿔서 계산한다.
 - 시간을 모르면 `--birth 1995-03-02` 처럼 날짜만 넣는다 (시주 없이 세 기둥).
 - 서울이 아닌 곳에서 태어났으면 `--lon 129.0` (부산) 처럼 경도를 넣는다.
 - `--llm anthropic` 을 주면 초안을 Claude 가 다시 쓴다 (`pip install anthropic`, `ANTHROPIC_API_KEY` 필요).

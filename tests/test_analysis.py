@@ -57,3 +57,10 @@ def test_weak_with_heavy_officer_uses_resource():
 def test_weak_with_heavy_wealth_uses_peer():
     a = analyze(build_chart(datetime(2007, 9, 28, 9, 30), "F"), date(2026, 10, 26))
     assert a.yongsin_group == "비겁" and a.yongsin_element == "木"
+
+
+def test_strong_with_officer_yongsin_gets_wealth_heesin():
+    # 오현진 (음력 1967-03-23 → 양력 1967-05-02): 신강 丙火, 관성 0 → 용신 水, 희신 金
+    a = analyze(build_chart(datetime(1967, 5, 2, 17, 0), "F"), date(2026, 10, 26))
+    assert a.strong and a.yongsin_group == "관성"
+    assert (a.yongsin_element, a.heesin_element) == ("水", "金")

@@ -27,8 +27,21 @@ def _parse_birth(s: str) -> tuple[datetime, bool]:
     raise SystemExit(f"생년월일 형식이 이상해요: {s!r} (예: 1995-03-02 14:30 또는 1995-03-02)")
 
 
+def _lunar_to_solar(d: datetime, leap: bool) -> datetime:
+    from korean_lunar_calendar import KoreanLunarCalendar
+
+    cal = KoreanLunarCalendar()
+    if not cal.setLunarDate(d.year, d.month, d.day, leap):
+        raise SystemExit(f"없는 음력 날짜예요: {d:%Y-%m-%d}{' (윤달)' if leap else ''}")
+    return d.replace(year=cal.solarYear, month=cal.solarMonth, day=cal.solarDay)
+
+
 def cmd_new(a: argparse.Namespace) -> None:
     birth, has_hour = _parse_birth(a.birth)
+    lunar = None
+    if a.lunar:
+        lunar = birth.strftime("%Y-%m-%d") + (" (윤달)" if a.leap else "")
+        birth = _lunar_to_solar(birth, a.leap)
     this_year = date.today().year
     chart = build_chart(birth, a.gender, has_hour, None if a.no_lon else a.lon,
                         years=(this_year, this_year + 1))
@@ -44,6 +57,7 @@ def cmd_new(a: argparse.Namespace) -> None:
         "slug": slug,
         "name": a.name,
         "note": a.note,
+        "lunar": lunar,
         "created": date.today().isoformat(),
         "chart": chart.to_dict(),
         "analysis": analysis.to_dict(),
@@ -82,6 +96,8 @@ def main() -> None:
     n.add_argument("--name", required=True, help="페이지에 나갈 닉네임 (실명 비추천)")
     n.add_argument("--birth", required=True, help='양력 "YYYY-MM-DD HH:MM" 또는 "YYYY-MM-DD"')
     n.add_argument("--gender", required=True, choices=["M", "F"])
+    n.add_argument("--lunar", action="store_true", help="--birth 가 음력 날짜일 때")
+    n.add_argument("--leap", action="store_true", help="음력 윤달일 때 (--lunar 와 함께)")
     n.add_argument("--lon", type=float, default=127.0, help="출생지 경도, 지방시 보정용 (기본 127=서울)")
     n.add_argument("--no-lon", action="store_true", help="지방시 보정 끄기")
     n.add_argument("--note", default="", help="신청자가 남긴 고민/질문")

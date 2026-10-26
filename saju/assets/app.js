@@ -39,7 +39,8 @@
   let lastMove = 0;   // 마지막으로 장을 넘긴 시각
   let lastWheel = 0;  // 마지막 휠 이벤트 시각 (관성 스크롤 묶음 판별)
   let lastInner = 0;  // 슬라이드 안쪽 스크롤에 휠을 쓴 시각
-  const LOCK = calm ? 300 : 1000;
+  let lastAbs = 0;    // 직전 휠 세기 (관성은 점점 약해지고, 새 제스처는 다시 세진다)
+  const LOCK = calm ? 250 : 550;
 
   function go(n) {
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -68,21 +69,27 @@
   }
 
   const inner = () => slides[idx].querySelector(".slide-inner");
+  // 안쪽 스크롤은 모바일에서, 진짜로 내용이 넘칠 때만 쓴다.
+  // (등장 애니메이션 중인 요소가 잠깐 아래로 밀려 생기는 작은 넘침은 무시)
   const canScroll = (el, dir) =>
-    el && (dir > 0 ? el.scrollTop + el.clientHeight < el.scrollHeight - 2 : el.scrollTop > 1);
+    el && innerWidth <= 700 && el.scrollHeight - el.clientHeight > 40 &&
+    (dir > 0 ? el.scrollTop + el.clientHeight < el.scrollHeight - 2 : el.scrollTop > 1);
 
   addEventListener("wheel", (e) => {
     const dir = Math.sign(e.deltaY);
     if (!dir) return;
     const now = performance.now();
     const gap = now - lastWheel;
+    const abs = Math.abs(e.deltaY);
+    const stronger = abs > lastAbs * 1.5 && abs > 15;
     lastWheel = now;
+    lastAbs = abs;
     // 내용이 긴 장은 안쪽부터 끝까지 읽게 한다
     if (canScroll(inner(), dir)) { lastInner = now; return; }
     e.preventDefault();
-    if (now - lastInner < 500) return;              // 안쪽 스크롤 끝에 닿은 같은 제스처
-    if (now - lastMove < LOCK) return;              // 넘어가는 중
-    if (gap < 220 && now - lastMove < 2200) return; // 트랙패드 관성으로 이어지는 같은 제스처
+    if (now - lastInner < 300) return;              // 안쪽 스크롤 끝에 닿은 같은 제스처
+    if (now - lastMove < LOCK) return;              // 막 넘어가는 중
+    if (gap < 120 && !stronger) return;             // 약해지는 관성 스크롤은 같은 제스처로 본다
     go(idx + dir);
   }, { passive: false });
 
@@ -122,6 +129,24 @@
     if (!t) return;
     go(t.dataset.go === "next" ? idx + 1 : Number(t.dataset.go));
   });
+
+  // 데스크톱에선 화면보다 긴 장을 살짝 축소해 한 화면에 맞춘다 (휠이 안쪽 스크롤에 걸리지 않게).
+  // 모바일은 손가락으로 읽는 게 자연스러워서 안쪽 스크롤을 그대로 둔다.
+  const fit = () => slides.forEach((s) => {
+    const el = s.querySelector(".slide-inner");
+    if (!el) return;
+    el.style.cssText = "";
+    if (innerWidth <= 700) return;
+    const h = s.clientHeight, H = el.scrollHeight;
+    if (H > h + 2) {
+      // 안쪽 스크롤을 끄고, 내용 높이 그대로 둔 채 화면 높이에 맞게 줄인다
+      el.style.cssText = `max-height:none;height:${H}px;overflow:visible;flex:none;` +
+        `transform-origin:top center;transform:scale(${(h / H).toFixed(3)})`;
+    }
+  });
+  fit();
+  document.fonts?.ready.then(fit);
+  addEventListener("resize", fit);
 
   // 화면보다 긴 장(주로 모바일)은 아래쪽에 '더 보기' 표시를 띄운다
   const markMore = (s) => {

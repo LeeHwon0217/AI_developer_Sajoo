@@ -115,7 +115,9 @@ def analyze(chart: Chart, today: date | None = None, span: int = 15) -> Analysis
         cands = ["식상", "관성", "재성"]
         yongsin = min(cands, key=lambda c: (g[c], cands.index(c)))
         ys_el = group_element(day_el, yongsin)
-        hee_el = ELEMENTS[(ELEMENTS.index(ys_el) + 1) % 5]
+        # 식상 용신은 재성으로 이어질 때(식상생재), 관·재 용신은 그것을 낳는 기운이 받쳐줄 때 좋다
+        step = 1 if yongsin == "식상" else -1
+        hee_el = ELEMENTS[(ELEMENTS.index(ys_el) + step) % 5]
         gi_el = day_el
     elif g["관성"] > g["재성"]:
         # 관살이 나를 누르는 신약: 인성이 관의 힘을 받아 나를 살린다 (살인상생)
