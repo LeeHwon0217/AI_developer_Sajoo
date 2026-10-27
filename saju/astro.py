@@ -246,6 +246,9 @@ def build_astro(birth_local: datetime, hour_known: bool = True, lat: float = 37.
             for ang, label in cycles.items():
                 if abs((d - ang + 180) % 360 - 180) < 1.5:
                     key = (label, t.year)
+                    # 태어난 직후는 '돌아온' 게 아니라 원래 자리라 뺀다
+                    if t.year - birth_local.year < 4:
+                        continue
                     if key not in seen and not any(k[0] == label and abs(k[1] - t.year) <= 1 for k in seen):
                         seen.add(key)
                         chart.returns.append({"what": label, "year": t.year,
