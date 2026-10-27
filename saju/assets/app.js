@@ -152,7 +152,7 @@
   // 화면보다 긴 장(주로 모바일)은 아래쪽에 '더 보기' 표시를 띄운다
   const markMore = (s) => {
     const el = s.querySelector(".slide-inner");
-    if (el) s.classList.toggle("more", el.scrollTop + el.clientHeight < el.scrollHeight - 8);
+    if (el) s.classList.toggle("more", innerWidth <= 700 && el.scrollTop + el.clientHeight < el.scrollHeight - 40);
   };
   slides.forEach((s) => s.querySelector(".slide-inner")?.addEventListener("scroll", () => markMore(s), { passive: true }));
   addEventListener("resize", () => slides.forEach(markMore));

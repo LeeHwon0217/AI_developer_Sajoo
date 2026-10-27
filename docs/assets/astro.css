@@ -1,0 +1,136 @@
+/* 점성술 테마: 밤하늘 · 로마체 · 흰색과 금색. style.css 위에 덮어쓴다. */
+body.astro {
+  --paper: #060918;
+  --paper-2: rgba(255, 255, 255, .045);
+  --paper-line: rgba(255, 255, 255, .14);
+  --ink: #f4f1ea;
+  --ink-soft: #b7b5c9;
+  --red: #e8c872;      /* 강조색: 금색 */
+  --white: #060918;
+  --gold: #e8c872;
+  --lav: #a9b4ff;
+  --roman: "Cinzel", "Cormorant Garamond", serif;
+  --script: "Cormorant Garamond", serif;
+  --kr: "Nanum Myeongjo", "Noto Serif KR", serif;
+  --sym: "Noto Sans Symbols 2", "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  color: var(--ink);
+  font-family: var(--kr);
+  background:
+    radial-gradient(ellipse 120% 60% at 70% 30%, rgba(88, 70, 160, .28), transparent 60%),
+    radial-gradient(ellipse 90% 50% at 15% 85%, rgba(40, 90, 150, .22), transparent 60%),
+    linear-gradient(160deg, #04060f 0%, #0a1030 55%, #060918 100%);
+}
+#sky { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+.astro .track { position: relative; z-index: 1; }
+.astro .slide:not(.hero):nth-child(even) { background: transparent; }
+.astro .slide:not(.hero)::before { display: none; }
+.astro .slide::after { background: linear-gradient(transparent, rgba(6, 9, 24, .95) 70%); }
+
+/* ── 인트로 */
+.astro .hero { display: block; }
+.constellation {
+  position: absolute; left: 50%; top: 50%; width: min(78vmin, 640px); transform: translate(-50%, -54%);
+  overflow: visible; opacity: .9;
+}
+.c-lines polyline {
+  fill: none; stroke: var(--gold); stroke-width: .35; stroke-linecap: round; stroke-linejoin: round; opacity: .7;
+  stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw 2.4s 1.8s ease forwards;
+}
+.c-stars circle { fill: #fff; filter: drop-shadow(0 0 1.6px #fff) drop-shadow(0 0 3px var(--gold)); opacity: 0; animation: star-in .6s ease forwards, twinkle 3s ease-in-out infinite alternate; animation-delay: calc(1.4s + var(--i) * .12s), calc(2.6s + var(--i) * .3s); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes star-in { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
+@keyframes twinkle { to { opacity: .45; } }
+.c-stars circle { transform-box: fill-box; transform-origin: center; }
+
+.astro .hero-text { top: 50%; transform: translate(-50%, -50%); }
+.astro .hero-text::before { background: radial-gradient(closest-side, rgba(6, 9, 24, .55), transparent); }
+.astro .kicker { font-family: var(--roman); font-size: 13px; letter-spacing: .5em; color: var(--gold); animation: up 1.2s 2.6s both; }
+.astro .name .ink {
+  font-family: var(--kr); font-weight: 800; font-size: clamp(64px, 14vw, 150px); letter-spacing: .06em; color: #fff;
+  text-shadow: 0 0 24px rgba(232, 200, 114, .35), 0 0 60px rgba(169, 180, 255, .25);
+  animation: rise-glow 2s 2.8s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes rise-glow { from { opacity: 0; filter: blur(14px); letter-spacing: .4em; } to { opacity: 1; filter: none; } }
+.astro .name-sub { font-family: var(--roman); font-weight: 400; letter-spacing: .45em; font-size: clamp(13px, 1.8vw, 17px); color: var(--gold); margin-top: 14px; animation: up 1s 3.6s both; }
+.astro .headline { font-family: var(--kr); font-weight: 700; color: #fff; animation: up 1s 4s both; }
+.astro .meta { color: var(--ink-soft); animation: up 1s 4.3s both; }
+.astro .seal {
+  top: 8%; background: transparent; color: var(--gold); border: 1px solid rgba(232, 200, 114, .6); border-radius: 50%;
+  box-shadow: 0 0 30px rgba(232, 200, 114, .25), inset 0 0 20px rgba(232, 200, 114, .15); transform: none;
+  animation: fade 1.6s 4.5s both;
+}
+.astro .seal-char { font-family: var(--sym); font-weight: 400; }
+.astro .scroll-hint { background: rgba(255, 255, 255, .08); color: var(--ink); border: 1px solid var(--paper-line); animation-delay: 4.8s; }
+
+/* ── 섹션 */
+.astro .slide > .wm { font-family: var(--sym); font-weight: 400; color: #fff; }
+.astro .slide.active > .wm { opacity: .045; }
+.astro .s-head .hj {
+  font-family: var(--sym); font-weight: 400; color: var(--gold); background: transparent; border: 1px solid rgba(232, 200, 114, .55);
+  border-radius: 50%; box-shadow: 0 0 18px rgba(232, 200, 114, .2); transform: none;
+}
+.astro .s-num { font-family: var(--roman); letter-spacing: .32em; color: var(--gold); font-size: 12px; }
+.astro .s-head h2 { font-family: var(--kr); font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); letter-spacing: .02em; color: #fff; }
+.astro .lead { font-family: var(--kr); font-weight: 700; color: #fff; }
+.astro .para { color: #e6e3ef; }
+
+.astro .stat, .astro .card, .astro .release, .astro .lint-item {
+  background: rgba(255, 255, 255, .045); border: 1px solid var(--paper-line); box-shadow: none; backdrop-filter: blur(6px);
+}
+.astro .stat:first-child { border-color: rgba(232, 200, 114, .6); box-shadow: 0 0 24px rgba(232, 200, 114, .12); }
+.astro .stat .st-value { font-family: var(--kr); font-weight: 800; color: #fff; }
+.astro .stat:first-child .st-value { color: var(--gold); }
+.astro .st-sub { font-family: var(--roman); letter-spacing: .12em; font-size: 12px; }
+.astro .card::before { display: none; }
+.astro .card h3 { color: #fff; }
+.astro .badge { background: transparent; color: var(--gold); border: 1px solid rgba(232, 200, 114, .5); font-family: var(--sym); transform: none; }
+.astro .fit-track { background: rgba(255, 255, 255, .08); }
+.astro .fit-fill { background: linear-gradient(90deg, var(--lav), var(--gold)); }
+.astro .timeline { border-left: 1px solid rgba(232, 200, 114, .5); }
+.astro .timeline.many .tl { border-left: 1px solid rgba(232, 200, 114, .5); }
+.astro .tl::before { background: var(--paper); border: 1px solid var(--gold); box-shadow: 0 0 8px var(--gold); }
+.astro .tl.now { background: linear-gradient(90deg, rgba(232, 200, 114, .12), transparent); }
+.astro .tl.now::before { background: var(--gold); }
+.astro .now-badge { background: var(--gold); color: #060918; }
+.astro .chips span { background: transparent; border-color: var(--paper-line); }
+.astro .evidence { border-top-color: var(--paper-line); }
+.astro .evidence span { background: rgba(255, 255, 255, .06); }
+.astro .evidence .ev-label { background: var(--gold); color: #060918; }
+.astro .closing-text { font-family: var(--kr); font-weight: 800; font-size: clamp(28px, 4.6vw, 44px); color: #fff; text-shadow: 0 0 30px rgba(232, 200, 114, .3); }
+.astro .btn { background: var(--gold); color: #060918; box-shadow: none; }
+.btn.ghost { background: transparent; color: var(--red); border: 1.5px solid currentColor; box-shadow: none; margin-left: 8px; }
+.astro .btn.ghost { color: var(--gold); }
+.astro .dots button { background: transparent; border-color: rgba(255, 255, 255, .5); }
+.astro .dots button.on { background: var(--gold); border-color: var(--gold); }
+.astro .dots button span { background: #fff; color: #060918; }
+.astro .counter, .astro .nav-hint { color: var(--ink-soft); }
+.astro .counter b { color: var(--gold); }
+.astro .progress { background: var(--gold); }
+@media (max-width: 700px) { .astro .counter { background: rgba(6, 9, 24, .8); } }
+
+/* ── 호로스코프 휠 */
+.wheel-wrap { display: grid; place-items: center; margin: 0 auto 8px; }
+.wheel { width: min(58vh, 92vw, 470px); height: auto; overflow: visible; }
+.wheel .ring { fill: none; stroke: rgba(255, 255, 255, .35); stroke-width: 1; }
+.wheel .ring.inner { stroke: rgba(255, 255, 255, .15); }
+.wheel .seg { opacity: .12; }
+.wheel .cusp { stroke: rgba(255, 255, 255, .18); stroke-width: 1; }
+.wheel .zg { font-family: var(--sym); font-size: 22px; fill: var(--gold); text-anchor: middle; dominant-baseline: central; }
+.wheel .hn { font-family: var(--roman); font-size: 12px; fill: rgba(255, 255, 255, .35); text-anchor: middle; dominant-baseline: central; }
+.wheel .axis { stroke: var(--gold); stroke-width: 1.4; opacity: .8; }
+.wheel .axl { font-family: var(--roman); font-size: 13px; letter-spacing: .1em; fill: var(--gold); text-anchor: middle; dominant-baseline: central; }
+.wheel .tick { stroke: #fff; stroke-width: 1.4; }
+.wheel .pg { font-family: var(--sym); font-size: 25px; fill: #fff; text-anchor: middle; dominant-baseline: central; filter: drop-shadow(0 0 4px rgba(255, 255, 255, .5)); }
+.wheel .rx { font-size: 10px; fill: var(--ink-soft); }
+.wheel .asp { stroke-width: 1.2; opacity: .75; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.slide.active .wheel .asp { animation: draw 1.4s ease forwards; animation-delay: calc(1.2s + var(--i) * .12s); }
+.wheel .spin { transform-origin: 0 0; }
+.slide.active .wheel .spin { animation: spin-in 1.8s cubic-bezier(.2, .8, .2, 1) both .3s; }
+@keyframes spin-in { from { transform: rotate(-120deg) scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+.astro .slide[data-nav="차트"] .stats { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 700px) { .astro .slide[data-nav="차트"] .stats { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .c-lines polyline { stroke-dashoffset: 0; }
+  .c-stars circle, .wheel .asp { opacity: 1; stroke-dashoffset: 0; }
+}

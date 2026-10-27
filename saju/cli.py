@@ -75,6 +75,26 @@ def cmd_new(a: argparse.Namespace) -> None:
     print("다음  reading 부분을 다듬은 뒤 `py -m saju build`")
 
 
+def cmd_star(a: argparse.Namespace) -> None:
+    """저장된 신청에 점성술 버전을 붙인다 (docs/<slug>/star/)."""
+    from .astro import SIGNS, build_astro
+    from .astro_reading import draft_astro
+
+    path = READINGS / f"{a.slug}.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    chart = data["chart"]
+    birth, has_hour = _parse_birth(chart["birth"])
+    this_year = date.today().year
+    ac = build_astro(birth, has_hour, a.lat, a.lon, a.place, years=(this_year, this_year + 1, this_year + 2))
+    data["astro"] = ac.to_dict()
+    data["astro_reading"] = draft_astro(ac, data["name"])
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    sun, moon = ac.body("태양"), ac.body("달")
+    asc = f" · 상승 {SIGNS[ac.asc_sign]}" if ac.asc_sign is not None else ""
+    print(f"별자리  태양 {SIGNS[sun.sign]} · 달 {SIGNS[moon.sign]}{asc}")
+    print(f"저장    {path}  (astro_reading 을 다듬은 뒤 build)")
+
+
 def cmd_build(_: argparse.Namespace) -> None:
     pages = build()
     print(f"{len(pages)}개 결과 페이지 + index → {DOCS}")
@@ -104,6 +124,13 @@ def main() -> None:
     n.add_argument("--llm", help="초안을 LLM 으로 다시 쓰기 (예: anthropic)")
     n.add_argument("--slug", help="URL 경로 직접 지정 (기본: 랜덤 8자)")
     n.set_defaults(func=cmd_new)
+
+    st = sub.add_parser("star", help="저장된 신청에 점성술 버전 추가")
+    st.add_argument("slug")
+    st.add_argument("--lat", type=float, default=37.5665, help="출생지 위도 (기본 서울)")
+    st.add_argument("--lon", type=float, default=126.978, help="출생지 경도 (기본 서울)")
+    st.add_argument("--place", default="서울")
+    st.set_defaults(func=cmd_star)
 
     sub.add_parser("build", help="docs/ 에 정적 사이트 생성").set_defaults(func=cmd_build)
     sub.add_parser("list", help="저장된 신청 목록").set_defaults(func=cmd_list)

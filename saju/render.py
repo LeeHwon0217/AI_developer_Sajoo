@@ -19,6 +19,7 @@ ASSETS = Path(__file__).resolve().parent / "assets"
 EL_CLASS = {"木": "wood", "火": "fire", "土": "earth", "金": "metal", "水": "water"}
 EL_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
 ANIMS = ["rise", "stamp", "slide", "flip"]
+ROMAN = "I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI XVII XVIII XIX XX XXI XXII".split()
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Gowun+Batang:wght@400;700"
          "&family=Noto+Serif+KR:wght@500;900&family=JetBrains+Mono:wght@400;600&display=swap")
@@ -97,17 +98,20 @@ def _pillars(chart: dict, d: _Seq) -> str:
     return f'<div class="pillars">{"".join(cells)}</div><div class="el-chips a" {d()}>{els}</div>'
 
 
-def _section(i: int, s: dict, chart: dict) -> str:
+def _section(i: int, s: dict, chart: dict, special: dict | None = None) -> str:
+    """special: 섹션 key → (등장순서 함수) → HTML. 사주의 원국, 점성술의 휠처럼 key 전용 그림을 끼운다."""
     d = _Seq()
     anim = ANIMS[i % len(ANIMS)]
     parts = [f"""<header class="s-head a" {d()}>
   <span class="hj">{escape(s['hanja'])}</span>
-  <div><p class="s-num">{i:02d} · {escape(s['nav'])}</p><h2>{escape(s['title'])}</h2>
+  <div><p class="s-num">{f"{ROMAN[i - 1]} · {escape(s['en'])}" if s.get('en') else f"{i:02d} · {escape(s['nav'])}"}</p><h2>{escape(s['title'])}</h2>
   {f'<p class="s-sub">{escape(s["sub"])}</p>' if s.get('sub') else ''}</div>
 </header>"""]
 
     if s["key"] == "chart":
         parts.append(_pillars(chart, d))
+    if special and s["key"] in special:
+        parts.append(special[s["key"]](d))
     if s.get("lead"):
         parts.append(f'<p class="lead a" {d()}>{escape(s["lead"])}</p>')
     if s.get("stats"):
@@ -163,11 +167,12 @@ def render_reading(data: dict) -> str:
 
     secs = r["sections"]
     body = "".join(_section(i + 1, s, chart) for i, s in enumerate(secs))
+    star_link = ' <a class="btn ghost" href="star/">별자리로도 보기 ✦</a>' if data.get("astro_reading") else ""
     closing = f"""<section class="slide closing" data-anim="rise" data-nav="끝">
   <span class="wm" aria-hidden="true">終</span>
   <div class="slide-inner">
     <p class="closing-text a" style="--d:1">{escape(r['closing'])}</p>
-    <p class="a" style="--d:2"><button class="btn" data-go="0">처음부터 다시 보기</button></p>
+    <p class="a" style="--d:2"><button class="btn" data-go="0">처음부터 다시 보기</button>{star_link}</p>
     <footer class="a" style="--d:3">
       <p>AI 개발자가 봐주는 사주 · 재미로 보는 해석이며 중요한 결정의 근거가 아닙니다.</p>
       <p><a href="../">← 처음으로</a></p>
@@ -217,7 +222,7 @@ def build() -> list[Path]:
     site = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
     DOCS.mkdir(exist_ok=True)
     (DOCS / "assets").mkdir(exist_ok=True)
-    for f in ("style.css", "app.js"):
+    for f in ("style.css", "app.js", "astro.css", "star.js"):
         shutil.copy(ASSETS / f, DOCS / "assets" / f)
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     (DOCS / "index.html").write_text(render_index(site), encoding="utf-8")
@@ -229,4 +234,9 @@ def build() -> list[Path]:
         d.mkdir(exist_ok=True)
         (d / "index.html").write_text(render_reading(data), encoding="utf-8")
         out.append(d / "index.html")
+        if data.get("astro_reading"):
+            from .astro_render import render_astro
+            (d / "star").mkdir(exist_ok=True)
+            (d / "star" / "index.html").write_text(render_astro(data), encoding="utf-8")
+            out.append(d / "star" / "index.html")
     return out
