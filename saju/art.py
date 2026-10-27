@@ -122,7 +122,10 @@ TIGER = """<svg class="tiger" viewBox="0 0 400 380" aria-hidden="true">
 </svg>"""
 
 
-def intro_layers() -> str:
+def intro_layers(animal: str | None = None) -> str:
+    """animal: 띠를 나타내는 지지 한 글자 (子~亥). 없으면 호랑이."""
+    from .animals import ANIMALS
+
     clouds = "".join(CLOUD.format(cls=f"c{i}") for i in range(1, 6))
     cranes = CRANE.format(cls="cr1") + CRANE.format(cls="cr2")
-    return SCENE + clouds + cranes + PINE + TIGER
+    return SCENE + clouds + cranes + PINE + ANIMALS.get(animal or "寅", TIGER)

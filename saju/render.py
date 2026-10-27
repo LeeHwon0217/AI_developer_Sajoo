@@ -50,9 +50,9 @@ def _head(title: str, desc: str, depth: int, noindex: bool) -> str:
 """
 
 
-def _hero(kicker: str, title: str, title_sub: str, headline: str, seal: str, extra: str = "") -> str:
+def _hero(kicker: str, title: str, title_sub: str, headline: str, seal: str, extra: str = "", animal: str | None = None) -> str:
     return f"""<section class="slide hero" data-nav="표지">
-  <div class="layers">{intro_layers()}</div>
+  <div class="layers">{intro_layers(animal)}</div>
   <div class="hero-text">
     <p class="kicker">{escape(kicker)}</p>
     <h1 class="name"><span class="ink">{escape(title)}</span><span class="name-sub">{escape(title_sub)}</span></h1>
@@ -152,6 +152,10 @@ def _section(i: int, s: dict, chart: dict, special: dict | None = None) -> str:
 </section>"""
 
 
+def _year_branch(chart: dict) -> str:
+    return next(p["hanja"][1] for p in chart["pillars"] if p["label"] == "년주")
+
+
 def render_reading(data: dict) -> str:
     chart, r = data["chart"], data["reading"]
     gender = "남" if chart["gender"] == "M" else "여"
@@ -182,7 +186,7 @@ def render_reading(data: dict) -> str:
 
     return (_head(f"{data['name']} 님의 사주", r["headline"], 1, True)
             + '<main class="track">'
-            + _hero("AI 개발자가 봐주는 사주", data["name"], "님의 사주팔자", r["headline"], seal, meta)
+            + _hero("AI 개발자가 봐주는 사주", data["name"], "님의 사주팔자", r["headline"], seal, meta, animal=_year_branch(chart))
             + body + closing + "</main>\n</body>\n</html>\n")
 
 

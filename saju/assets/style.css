@@ -365,3 +365,6 @@ footer p { margin: 4px 0; }
   .s-head { margin-bottom: 10px; }
   .lead { font-size: 19px; margin-bottom: 8px; }
 }
+/* 뱀은 혀를 날름거린다 */
+.animal-snake .tongue { transform-origin: 200px 250px; animation: flick 2.4s 3.5s ease-in-out infinite; }
+@keyframes flick { 0%, 70%, 100% { transform: scaleY(1); } 80% { transform: scaleY(.3); } 90% { transform: scaleY(1.1); } }
